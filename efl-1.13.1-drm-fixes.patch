@@ -1,0 +1,26 @@
+diff -up efl-1.13.1/src/modules/evas/engines/gl_drm/evas_drm_main.c.fixme efl-1.13.1/src/modules/evas/engines/gl_drm/evas_drm_main.c
+--- efl-1.13.1/src/modules/evas/engines/gl_drm/evas_drm_main.c.fixme	2015-02-27 14:40:14.458467898 -0500
++++ efl-1.13.1/src/modules/evas/engines/gl_drm/evas_drm_main.c	2015-02-27 14:40:31.853332094 -0500
+@@ -221,8 +221,10 @@ eng_window_new(Evas_Engine_Info_GL_Drm *
+         return NULL;
+      }
+ 
++#ifdef GL_GLES
+    gw->gl_context->egldisp = gw->egl_disp;
+    gw->gl_context->eglctxt = gw->egl_context[0];
++#endif
+ 
+    eng_window_use(gw);
+    glsym_evas_gl_common_context_resize(gw->gl_context, w, h, rot);
+diff -up efl-1.13.1/src/modules/evas/engines/gl_drm/evas_engine.h.fixme efl-1.13.1/src/modules/evas/engines/gl_drm/evas_engine.h
+--- efl-1.13.1/src/modules/evas/engines/gl_drm/evas_engine.h.fixme	2015-02-27 14:40:51.648179559 -0500
++++ efl-1.13.1/src/modules/evas/engines/gl_drm/evas_engine.h	2015-02-27 14:41:04.801079322 -0500
+@@ -10,6 +10,8 @@
+ 
+ #define GL_GLEXT_PROTOTYPES
+ #include <EGL/egl.h>
++#include <EGL/eglext.h>
++#include <EGL/eglmesaext.h>
+ #include <GLES2/gl2.h>
+ #include <GLES2/gl2ext.h>
+ #include "../gl_generic/Evas_Engine_GL_Generic.h"
