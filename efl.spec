@@ -1,8 +1,8 @@
 %global _hardened_build 1
 
 Name:		efl
-Version:	1.13.1
-Release:	7%{?dist}
+Version:	1.13.2
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -414,6 +414,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon Apr  6 2015 Tom Callaway <spot@fedoraproject.org> - 1.13.2-1
+- update to 1.13.2
+
 * Tue Mar 31 2015 Tom Callaway <spot@fedoraproject.org> - 1.13.1-7
 - add dbus dir ownership
 
