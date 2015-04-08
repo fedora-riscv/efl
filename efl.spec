@@ -1,8 +1,12 @@
 %global _hardened_build 1
 
+%ifarch %{arm} %{ix86} x86_64
+%global has_luajit 1
+%endif
+
 Name:		efl
 Version:	1.13.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -14,7 +18,7 @@ Patch1:		efl-1.13.1-drm-fixes.patch
 # https://phab.enlightenment.org/T2157
 Patch2:		efl-1.13.1-fsf-address-fix.patch
 BuildRequires:	bullet-devel libpng-devel libjpeg-devel gstreamer1-devel zlib-devel
-BuildRequires:	gstreamer1-plugins-base-devel luajit-devel libtiff-devel openssl-devel
+BuildRequires:	gstreamer1-plugins-base-devel libtiff-devel openssl-devel
 BuildRequires:	curl-devel dbus-devel glibc-devel fontconfig-devel freetype-devel
 BuildRequires:	fribidi-devel pulseaudio-libs-devel libsndfile-devel libX11-devel
 BuildRequires:	libXau-devel libXcomposite-devel libXdamage-devel libXdmcp-devel
@@ -27,6 +31,11 @@ BuildRequires:	doxygen, systemd, libwayland-client-devel giflib-devel
 BuildRequires:	mesa-libwayland-egl-devel, openjpeg-devel, libdrm-devel
 BuildRequires:	autoconf, automake, libtool, gettext-devel, mesa-libGLES-devel
 BuildRequires:	mesa-libgbm-devel, libinput-devel
+%if 0%{?has_luajit}
+BuildRequires:	luajit-devel
+%else
+BuildRequires:	lua-devel
+%endif
 # These are convenience provides to aid in migration
 Provides:	e_dbus%{?_isa} = %{version}-%{release}
 Provides:	e_dbus = %{version}-%{release}
@@ -157,6 +166,9 @@ autoreconf -ifv
 %ifarch %{arm}
 	--disable-neon \
 %endif
+%if ! 0%{?has_luajit}
+	--enable-lua-old \
+%endif
 	--with-systemdunitdir=%{_unitdir}
 make %{?_smp_mflags} V=1
 # This makes doxygen segfault. :/
@@ -243,9 +255,13 @@ fi
 # elocation
 %{_libdir}/libelocation.so.1*
 # elua
+%if 0%{?has_luajit}
 %{_bindir}/elua
 %{_datadir}/elua/
 %{_libdir}/libelua.so.1*
+%else
+%exclude %{_datadir}/elua/
+%endif
 # embryo
 %{_bindir}/embryo_cc
 %{_libdir}/libembryo.so.1*
@@ -358,10 +374,14 @@ fi
 %{_libdir}/libelocation.so
 %{_libdir}/pkgconfig/elocation.pc
 # elua-devel
+%if 0%{?has_luajit}
 %{_includedir}/elua-1/
 %{_libdir}/libelua.so
 %{_libdir}/pkgconfig/elua.pc
 %{_libdir}/cmake/Elua/
+%else
+%exclude %{_libdir}/cmake/Elua/
+%endif
 # embryo-devel
 %{_includedir}/embryo-1/
 %{_libdir}/libembryo.so
@@ -414,6 +434,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Wed Apr  8 2015 Dan Horák <dan[at]danny.cz> - 1.13.2-2
+- use luajit only where available
+
 * Mon Apr  6 2015 Tom Callaway <spot@fedoraproject.org> - 1.13.2-1
 - update to 1.13.2
 
