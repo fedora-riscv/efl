@@ -6,7 +6,7 @@
 
 Name:		efl
 Version:	1.13.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -434,6 +434,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Sat May 02 2015 Kalev Lember <kalevlember@gmail.com> - 1.13.2-3
+- Rebuilt for GCC 5 C++11 ABI change
+
 * Wed Apr  8 2015 Dan Horák <dan[at]danny.cz> - 1.13.2-2
 - use luajit only where available
 
