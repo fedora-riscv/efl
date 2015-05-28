@@ -4,19 +4,17 @@
 %global has_luajit 1
 %endif
 
+%global use_wayland 0
+
 Name:		efl
-Version:	1.13.2
-Release:	3%{?dist}
+Version:	1.14.0
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
 Source0:	http://download.enlightenment.org/rel/libs/efl/efl-%{version}.tar.xz
 # I think this one is Fedora specific.
 Patch0:		efl-1.11.4-tslibfix.patch
-# https://phab.enlightenment.org/T2158
-Patch1:		efl-1.13.1-drm-fixes.patch
-# https://phab.enlightenment.org/T2157
-Patch2:		efl-1.13.1-fsf-address-fix.patch
 BuildRequires:	bullet-devel libpng-devel libjpeg-devel gstreamer1-devel zlib-devel
 BuildRequires:	gstreamer1-plugins-base-devel libtiff-devel openssl-devel
 BuildRequires:	curl-devel dbus-devel glibc-devel fontconfig-devel freetype-devel
@@ -27,10 +25,12 @@ BuildRequires:	libXrender-devel libXScrnSaver-devel libXtst-devel libXcursor-dev
 BuildRequires:	libXp-devel libXi-devel mesa-libGL-devel mesa-libEGL-devel
 BuildRequires:	libblkid-devel libmount-devel systemd-devel harfbuzz-devel 
 BuildRequires:	libwebp-devel scim-devel tslib-devel SDL2-devel SDL-devel c-ares-devel
-BuildRequires:	doxygen, systemd, libwayland-client-devel giflib-devel
-BuildRequires:	mesa-libwayland-egl-devel, openjpeg-devel, libdrm-devel
-BuildRequires:	autoconf, automake, libtool, gettext-devel, mesa-libGLES-devel
-BuildRequires:	mesa-libgbm-devel, libinput-devel
+BuildRequires:	doxygen systemd giflib-devel openjpeg-devel libdrm-devel
+%if %{use_wayland}
+BuildRequires:	mesa-libwayland-egl-devel libwayland-client-devel
+%endif
+BuildRequires:	autoconf automake libtool gettext-devel mesa-libGLES-devel
+BuildRequires:	mesa-libgbm-devel libinput-devel
 %if 0%{?has_luajit}
 BuildRequires:	luajit-devel
 %else
@@ -142,8 +142,6 @@ Development files for EFL.
 %prep
 %setup -q
 %patch0 -p1 -b .tslibfix
-%patch1 -p1 -b .drmfix
-%patch2 -p1 -b .fsffix
 autoreconf -ifv
 
 %build
@@ -157,7 +155,9 @@ autoreconf -ifv
 	--enable-sdl \
 	--enable-scim \
 	--enable-fb \
+%if %{use_wayland}
 	--enable-wayland \
+%endif
 	--enable-drm \
 	--enable-drm-hw-accel \
 	--with-opengl=full \
@@ -220,6 +220,7 @@ fi
 %{_datadir}/ecore/
 %{_datadir}/ecore_imf/
 %{_datadir}/ecore_x/
+%{_libdir}/libector.so.*
 # edje
 %{_bindir}/edje*
 %{_datadir}/mime/packages/edje.xml
@@ -228,6 +229,7 @@ fi
 # eet
 %{_bindir}/diffeet
 %{_bindir}/eet
+%{_bindir}/eetpack
 %{_bindir}/vieet
 %{_libdir}/libeet.so.*
 # eeze
@@ -265,6 +267,7 @@ fi
 # embryo
 %{_bindir}/embryo_cc
 %{_libdir}/libembryo.so.1*
+%{_libdir}/libemile.so.*
 # emotion
 %{_libdir}/emotion/
 %{_libdir}/libemotion.so.1*
@@ -318,11 +321,16 @@ fi
 %{_includedir}/ecore-input-evas-1/
 %{_includedir}/ecore-ipc-1/
 %{_includedir}/ecore-sdl-1/
+%if %{use_wayland}
 %{_includedir}/ecore-wayland-1/
+%endif
 %{_includedir}/ecore-x-1/
 %{_libdir}/cmake/Ecore*/
 %{_libdir}/libecore*.so
 %{_libdir}/pkgconfig/ecore*.pc
+%{_includedir}/ector-1/
+%{_libdir}/libector.so
+%{_libdir}/pkgconfig/ector.pc
 # edje-devel
 %{_libdir}/libedje.so
 %{_libdir}/pkgconfig/edje*.pc
@@ -361,8 +369,11 @@ fi
 %{_libdir}/libeina.so
 # eio-devel
 %{_includedir}/eio-1/
+%{_includedir}/eio-cxx-1/
 %{_libdir}/libeio.so
 %{_libdir}/pkgconfig/eio.pc
+%{_libdir}/pkgconfig/eio-cxx.pc
+%{_libdir}/cmake/Eio/
 # eldbus-devel
 %{_includedir}/eldbus-1/
 %{_includedir}/eldbus_cxx-1/
@@ -387,6 +398,10 @@ fi
 %{_libdir}/libembryo.so
 %{_libdir}/pkgconfig/embryo.pc
 %{_datadir}/embryo/
+%{_includedir}/emile-1/
+%{_libdir}/cmake/Emile/
+%{_libdir}/libemile.so
+%{_libdir}/pkgconfig/emile.pc
 # emotion-devel
 %{_includedir}/emotion-1/
 %{_libdir}/cmake/Emotion/
@@ -434,6 +449,10 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Thu May 28 2015 Tom Callaway <spot@fedoraproject.org> - 1.14.0-1
+- update to 1.14.0
+- disable wayland support (bz 1214597)
+
 * Sat May 02 2015 Kalev Lember <kalevlember@gmail.com> - 1.13.2-3
 - Rebuilt for GCC 5 C++11 ABI change
 
