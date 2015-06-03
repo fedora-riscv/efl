@@ -7,7 +7,7 @@
 %global use_wayland 0
 
 Name:		efl
-Version:	1.14.0
+Version:	1.14.1
 Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
@@ -449,6 +449,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Wed Jun  3 2015 Tom Callaway <spot@fedoraproject.org> - 1.14.1-1
+- update to 1.14.1
+
 * Thu May 28 2015 Tom Callaway <spot@fedoraproject.org> - 1.14.0-1
 - update to 1.14.0
 - disable wayland support (bz 1214597)
