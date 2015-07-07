@@ -8,7 +8,7 @@
 
 Name:		efl
 Version:	1.14.1
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -143,6 +143,10 @@ Development files for EFL.
 %setup -q
 %patch0 -p1 -b .tslibfix
 autoreconf -ifv
+
+# This is why hardcoding paths is bad.
+sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
+  data/libeo.so.%{version}-gdb.py
 
 %build
 # The arm-wide disablement of neon is not right
@@ -449,6 +453,12 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Sun Jul  5 2015 Conrad Meyer <cemeyer@uw.edu> - 1.14.1-3
+- Install eo_gdb autoload script with correct path
+
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.14.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Wed Jun  3 2015 Tom Callaway <spot@fedoraproject.org> - 1.14.1-1
 - update to 1.14.1
 
