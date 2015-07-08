@@ -4,11 +4,16 @@
 %global has_luajit 1
 %endif
 
+# Look, you probably don't want this. scim is so 2012. ibus is the new hotness.
+# Enabling this means you'll almost certainly need to pass ECORE_IMF_MODULE=xim 
+# to get anything to work. (*cough*terminology*cough*)
+%global with_scim 0
+
 %global use_wayland 0
 
 Name:		efl
-Version:	1.14.1
-Release:	3%{?dist}
+Version:	1.14.2
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -24,7 +29,11 @@ BuildRequires:	libXext-devel libXfixes-devel libXinerama-devel libXrandr-devel
 BuildRequires:	libXrender-devel libXScrnSaver-devel libXtst-devel libXcursor-devel
 BuildRequires:	libXp-devel libXi-devel mesa-libGL-devel mesa-libEGL-devel
 BuildRequires:	libblkid-devel libmount-devel systemd-devel harfbuzz-devel 
-BuildRequires:	libwebp-devel scim-devel tslib-devel SDL2-devel SDL-devel c-ares-devel
+BuildRequires:	libwebp-devel tslib-devel SDL2-devel SDL-devel c-ares-devel
+%if %{with_scim}
+BuildRequires:	scim-devel
+%endif
+BuildRequires:	ibus-devel
 BuildRequires:	doxygen systemd giflib-devel openjpeg-devel libdrm-devel
 %if %{use_wayland}
 BuildRequires:	mesa-libwayland-egl-devel libwayland-client-devel
@@ -157,7 +166,13 @@ sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
 	--enable-image-loader-webp \
 	--enable-harfbuzz \
 	--enable-sdl \
+	--enable-ibus \
+%if %{with_scim}
 	--enable-scim \
+%else
+	--disable-scim \
+	--enable-i-really-know-what-i-am-doing-and-that-this-will-probably-break-things-and-i-will-fix-them-myself-and-send-patches-aba \
+%endif
 	--enable-fb \
 %if %{use_wayland}
 	--enable-wayland \
@@ -453,6 +468,10 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Tue Jul  7 2015 Tom Callaway <spot@fedoraproject.org> - 1.14.2-1
+- disable scim by default
+- update to 1.14.2
+
 * Sun Jul  5 2015 Conrad Meyer <cemeyer@uw.edu> - 1.14.1-3
 - Install eo_gdb autoload script with correct path
 
