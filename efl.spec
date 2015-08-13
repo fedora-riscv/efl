@@ -12,7 +12,7 @@
 %global use_wayland 0
 
 Name:		efl
-Version:	1.14.2
+Version:	1.15.0
 Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
@@ -205,7 +205,6 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 %post
 /sbin/ldconfig
-%systemd_post efreet.service
 %systemd_post ethumb.service
 /bin/touch --no-create %{_datadir}/mime/packages &>/dev/null || :
 
@@ -214,14 +213,12 @@ if [ $1 -eq 0 ] ; then
   /usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :
 fi
 /sbin/ldconfig
-%systemd_postun_with_restart efreet.service
 %systemd_postun_with_restart ethumb.service
 
 %posttrans
 /usr/bin/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 %preun
-%systemd_preun efreet.service
 %systemd_preun ethumb.service
 
 %files -f %{name}.lang
@@ -229,6 +226,8 @@ fi
 %license COPYING licenses/COPYING.BSD licenses/COPYING.GPL licenses/COPYING.LGPL licenses/COPYING.SMALL
 %doc AUTHORS COMPLIANCE NEWS README
 %{_libdir}/libefl.so.1*
+%{_bindir}/efl_debug
+%{_bindir}/efl_debugd
 # ecore
 %{_bindir}/ecore_evas_convert
 %{_libdir}/ecore/
@@ -257,16 +256,15 @@ fi
 %{_libdir}/libeeze.so.1*
 # efreet
 %{_bindir}/efreetd
-%{_unitdir}/efreet.service
 # we don't depend on dbus, but we want clean dir ownership here.
 %dir %{_datadir}/dbus-1/
 %dir %{_datadir}/dbus-1/services/
-%{_datadir}/dbus-1/services/org.enlightenment.Efreet.service
 %{_libdir}/efreet/
 %{_libdir}/libefreet.so.1*
 %{_libdir}/libefreet_mime.so.1*
 %{_libdir}/libefreet_trash.so.1*
 # eina
+%{_bindir}/eina_btlog
 %{_libdir}/libeina.so.*
 # eio
 %{_libdir}/libeio.so.1*
@@ -468,6 +466,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon Aug 10 2015 Tom Callaway <spot@fedoraproject.org> - 1.15.0-1
+- update to 1.15.0
+
 * Tue Jul  7 2015 Tom Callaway <spot@fedoraproject.org> - 1.14.2-1
 - disable scim by default
 - update to 1.14.2
