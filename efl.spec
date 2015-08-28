@@ -12,7 +12,7 @@
 %global use_wayland 0
 
 Name:		efl
-Version:	1.15.0
+Version:	1.15.1
 Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
@@ -466,6 +466,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Fri Aug 28 2015 Tom Callaway <spot@fedoraproject.org> - 1.15.1-1
+- update to 1.15.1
+
 * Mon Aug 10 2015 Tom Callaway <spot@fedoraproject.org> - 1.15.0-1
 - update to 1.15.0
 
