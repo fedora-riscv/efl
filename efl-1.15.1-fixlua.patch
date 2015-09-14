@@ -1,0 +1,12 @@
+diff -up efl-1.15.1/src/lib/evas/filters/evas_filter_parser.c.fixlua efl-1.15.1/src/lib/evas/filters/evas_filter_parser.c
+--- efl-1.15.1/src/lib/evas/filters/evas_filter_parser.c.fixlua	2015-09-14 14:27:24.317751813 -0400
++++ efl-1.15.1/src/lib/evas/filters/evas_filter_parser.c	2015-09-14 14:26:51.541956262 -0400
+@@ -2431,7 +2431,7 @@ _lua_backtrace(lua_State *L)
+    if (!lua_isstring(L, 1))  /* 'message' not a string? */
+      return 1;  /* keep it intact */
+    ERR("Lua error: %s", lua_tolstring(L, 1, NULL));
+-   lua_getfield(L, LUA_GLOBALSINDEX, "debug");
++   lua_getglobal(L, "debug");
+    if (!lua_istable(L, -1))
+      {
+         lua_pop(L, 1);
