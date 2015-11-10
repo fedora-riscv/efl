@@ -12,17 +12,14 @@
 %global use_wayland 0
 
 Name:		efl
-Version:	1.15.1
-Release:	2%{?dist}
+Version:	1.16.0
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
 Source0:	http://download.enlightenment.org/rel/libs/efl/efl-%{version}.tar.xz
 # I think this one is Fedora specific.
 Patch0:		efl-1.11.4-tslibfix.patch
-# Fix lua compilation with lua 5.2+
-# https://phab.enlightenment.org/T2728
-Patch1:		efl-1.15.1-fixlua.patch
 BuildRequires:	bullet-devel libpng-devel libjpeg-devel gstreamer1-devel zlib-devel
 BuildRequires:	gstreamer1-plugins-base-devel libtiff-devel openssl-devel
 BuildRequires:	curl-devel dbus-devel glibc-devel fontconfig-devel freetype-devel
@@ -154,7 +151,6 @@ Development files for EFL.
 %prep
 %setup -q
 %patch0 -p1 -b .tslibfix
-%patch1 -p1 -b .fixlua
 autoreconf -ifv
 
 # This is why hardcoding paths is bad.
@@ -470,6 +466,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Tue Nov 10 2016 Tom Callaway <spot@fedoraproject.org> - 1.16.0-1
+- update to 1.16.0
+
 * Mon Sep 14 2015 Tom Callaway <spot@fedoraproject.org> - 1.15.1-2
 - fix compilation against current lua (thanks to Rafael Fonseca)
 
