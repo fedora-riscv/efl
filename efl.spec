@@ -13,7 +13,7 @@
 
 Name:		efl
 Version:	1.16.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -182,7 +182,7 @@ sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
 	--with-opengl=full \
 	--disable-static \
 	--with-profile=release \
-%ifarch %{arm}
+%ifarch %{arm} aarch64
 	--disable-neon \
 %endif
 %if ! 0%{?has_luajit}
@@ -466,6 +466,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon Nov 23 2015 Marcin Juszkiewicz <mjuszkiewicz@redhat.com> - 1.16.0-2
+- Follow upstream decision and disable NEON on AArch64 as well.
+
 * Tue Nov 10 2016 Tom Callaway <spot@fedoraproject.org> - 1.16.0-1
 - update to 1.16.0
 
