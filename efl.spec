@@ -13,7 +13,7 @@
 
 Name:		efl
 Version:	1.16.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -466,6 +466,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon Dec 28 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 1.16.0-3
+- Rebuilt for libwebp soname bump
+
 * Mon Nov 23 2015 Marcin Juszkiewicz <mjuszkiewicz@redhat.com> - 1.16.0-2
 - Follow upstream decision and disable NEON on AArch64 as well.
 
