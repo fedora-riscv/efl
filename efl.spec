@@ -12,8 +12,8 @@
 %global use_wayland 0
 
 Name:		efl
-Version:	1.16.0
-Release:	3%{?dist}
+Version:	1.16.1
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -466,6 +466,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Tue Jan 05 2016 Ding-Yi Chen <mjuszkiewicz@redhat.com> - 1.16.1-1
+- update to 1.16.1
+
 * Mon Dec 28 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 1.16.0-3
 - Rebuilt for libwebp soname bump
 
