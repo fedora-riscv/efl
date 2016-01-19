@@ -466,7 +466,7 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
-* Tue Jan 05 2016 Ding-Yi Chen <mjuszkiewicz@redhat.com> - 1.16.1-1
+* Tue Jan 05 2016 Ding-Yi Chen <dchen@redhat.com> - 1.16.1-1
 - update to 1.16.1
 
 * Mon Dec 28 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 1.16.0-3
