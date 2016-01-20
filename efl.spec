@@ -12,7 +12,7 @@
 %global use_wayland 0
 
 Name:		efl
-Version:	1.16.0
+Version:	1.16.1
 Release:	2%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
@@ -251,7 +251,10 @@ fi
 %{_bindir}/vieet
 %{_libdir}/libeet.so.*
 # eeze
-%{_bindir}/eeze_*
+%attr(0755,root,root) %caps(cap_audit_write,cap_chown,cap_setuid,cap_sys_admin=pe) %{_bindir}/eeze_scanner
+%{_bindir}/eeze_disk_ls
+%{_bindir}/eeze_mount
+%{_bindir}/eeze_umount
 %{_libdir}/eeze/
 %{_libdir}/libeeze.so.1*
 # efreet
@@ -290,6 +293,7 @@ fi
 %{_libdir}/libemotion.so.1*
 # eo
 %{_libdir}/libeo.so.1*
+%{_datadir}/gdb/auto-load/%{_libdir}/libeo.so.1*
 # eolian
 %{_bindir}/eolian_cxx
 %{_bindir}/eolian_gen
@@ -434,7 +438,6 @@ fi
 %{_libdir}/pkgconfig/eo.pc
 %{_libdir}/pkgconfig/eo-cxx.pc
 %{_datadir}/eo/
-%{_datadir}/gdb/auto-load/%{_libdir}/libeo.so*
 # eolian-devel
 %{_includedir}/eolian-1/
 %{_includedir}/eolian-cxx-1/
@@ -466,6 +469,15 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Tue Jan 19 2016 Ding-Yi Chen <dchen@redhat.com> - 1.16.1-2
+- Fix rpmlint error
+
+* Tue Jan 05 2016 Ding-Yi Chen <dchen@redhat.com> - 1.16.1-1
+- update to 1.16.1
+
+* Mon Dec 28 2015 Igor Gnatenko <i.gnatenko.brain@gmail.com> - 1.16.0-3
+- Rebuilt for libwebp soname bump
+
 * Mon Nov 23 2015 Marcin Juszkiewicz <mjuszkiewicz@redhat.com> - 1.16.0-2
 - Follow upstream decision and disable NEON on AArch64 as well.
 
