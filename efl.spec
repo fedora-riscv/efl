@@ -13,7 +13,7 @@
 
 Name:		efl
 Version:	1.17.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -468,6 +468,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Tue Feb 09 2016 Rich Mattes <richmattes@gmail.com> - 1.17.0-2
+- Rebuild for bullet 2.83
+
 * Wed Feb 3 2016 Ding-Yi Chen <dchen@redhat.com> - 1.17.0-1
 - Upstream update to 1.17.0
 - Removed: /usr/include/ector-1
