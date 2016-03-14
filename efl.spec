@@ -9,11 +9,11 @@
 # to get anything to work. (*cough*terminology*cough*)
 %global with_scim 0
 
-%global use_wayland 0
+%global use_wayland 1
 
 Name:		efl
 Version:	1.17.0
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -344,6 +344,7 @@ fi
 %{_includedir}/ecore-sdl-1/
 %if %{use_wayland}
 %{_includedir}/ecore-wayland-1/
+%{_includedir}/ecore-wl2-1/
 %endif
 %{_includedir}/ecore-x-1/
 %{_libdir}/cmake/Ecore*/
@@ -468,6 +469,12 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon Mar 14 2016 Ding-Yi Chen <dchen@redhat.com> - 1.17.0-3
+- Re-enable wayland
+
+* Tue Feb 09 2016 Rich Mattes <richmattes@gmail.com> - 1.17.0-2
+- Rebuild for bullet 2.83
+
 * Wed Feb 3 2016 Ding-Yi Chen <dchen@redhat.com> - 1.17.0-1
 - Upstream update to 1.17.0
 - Removed: /usr/include/ector-1
