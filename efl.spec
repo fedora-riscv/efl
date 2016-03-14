@@ -9,11 +9,11 @@
 # to get anything to work. (*cough*terminology*cough*)
 %global with_scim 0
 
-%global use_wayland 0
+%global use_wayland 1
 
 Name:		efl
-Version:	1.16.1
-Release:	2%{?dist}
+Version:	1.17.0
+Release:	3%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -37,6 +37,7 @@ BuildRequires:	ibus-devel
 BuildRequires:	doxygen systemd giflib-devel openjpeg-devel libdrm-devel
 %if %{use_wayland}
 BuildRequires:	mesa-libwayland-egl-devel libwayland-client-devel
+BuildRequires:	libwayland-server-devel
 %endif
 BuildRequires:	autoconf automake libtool gettext-devel mesa-libGLES-devel
 BuildRequires:	mesa-libgbm-devel libinput-devel
@@ -171,7 +172,7 @@ sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
 	--enable-scim \
 %else
 	--disable-scim \
-	--enable-i-really-know-what-i-am-doing-and-that-this-will-probably-break-things-and-i-will-fix-them-myself-and-send-patches-aba \
+	--enable-i-really-know-what-i-am-doing-and-that-this-will-probably-break-things-and-i-will-fix-them-myself-and-send-patches-abb \
 %endif
 	--enable-fb \
 %if %{use_wayland}
@@ -344,12 +345,12 @@ fi
 %{_includedir}/ecore-sdl-1/
 %if %{use_wayland}
 %{_includedir}/ecore-wayland-1/
+%{_includedir}/ecore-wl2-1/
 %endif
 %{_includedir}/ecore-x-1/
 %{_libdir}/cmake/Ecore*/
 %{_libdir}/libecore*.so
 %{_libdir}/pkgconfig/ecore*.pc
-%{_includedir}/ector-1/
 %{_libdir}/libector.so
 %{_libdir}/pkgconfig/ector.pc
 # edje-devel
@@ -469,6 +470,16 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon Mar 14 2016 Ding-Yi Chen <dchen@redhat.com> - 1.17.0-3
+- Re-enable wayland
+
+* Tue Feb 09 2016 Rich Mattes <richmattes@gmail.com> - 1.17.0-2
+- Rebuild for bullet 2.83
+
+* Wed Feb 3 2016 Ding-Yi Chen <dchen@redhat.com> - 1.17.0-1
+- Upstream update to 1.17.0
+- Removed: /usr/include/ector-1
+
 * Tue Jan 19 2016 Ding-Yi Chen <dchen@redhat.com> - 1.16.1-2
 - Fix rpmlint error
 
