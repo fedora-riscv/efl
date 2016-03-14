@@ -37,6 +37,7 @@ BuildRequires:	ibus-devel
 BuildRequires:	doxygen systemd giflib-devel openjpeg-devel libdrm-devel
 %if %{use_wayland}
 BuildRequires:	mesa-libwayland-egl-devel libwayland-client-devel
+BuildRequires:	libwayland-server-devel
 %endif
 BuildRequires:	autoconf automake libtool gettext-devel mesa-libGLES-devel
 BuildRequires:	mesa-libgbm-devel libinput-devel
