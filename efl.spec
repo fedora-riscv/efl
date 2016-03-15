@@ -9,11 +9,23 @@
 # to get anything to work. (*cough*terminology*cough*)
 %global with_scim 0
 
+# Fedora <= 22 and EPEL 7 does not have wayland dependency
+%if 0%{?fedora}
+%if %{?fedora} >= 23
 %global use_wayland 1
+%else
+# fedora <= 22
+%global use_wayland 0
+%endif
+%else
+# EPEL
+%global use_wayland 0
+%endif
+
 
 Name:		efl
 Version:	1.17.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -470,6 +482,10 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon Mar 14 2016 Ding-Yi Chen <dchen@redhat.com> - 1.17.0-4
+- Disable wayland for Fedora 22 and EPEL, as they do not have
+  dependencies
+
 * Mon Mar 14 2016 Ding-Yi Chen <dchen@redhat.com> - 1.17.0-3
 - Re-enable wayland
 
