@@ -482,6 +482,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon Mar 14 2016 Ding-Yi Chen <dchen@redhat.com> - 1.17.0-5
+- Rebuild for libinput-1.3.0
+
 * Mon Mar 14 2016 Ding-Yi Chen <dchen@redhat.com> - 1.17.0-4
 - Disable wayland for Fedora 22 and EPEL, as they do not have
   dependencies
