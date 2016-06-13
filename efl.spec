@@ -25,13 +25,16 @@
 
 Name:		efl
 Version:	1.17.1
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
 Source0:	http://download.enlightenment.org/rel/libs/efl/efl-%{version}.tar.xz
 # I think this one is Fedora specific.
 Patch0:		efl-1.11.4-tslibfix.patch
+# There is probably a way to conditionalize this in the code that could go upstream
+# but this works for now.
+Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
 BuildRequires:	bullet-devel libpng-devel libjpeg-devel gstreamer1-devel zlib-devel
 BuildRequires:	gstreamer1-plugins-base-devel libtiff-devel openssl-devel
 BuildRequires:	curl-devel dbus-devel glibc-devel fontconfig-devel freetype-devel
@@ -164,6 +167,12 @@ Development files for EFL.
 %prep
 %setup -q
 %patch0 -p1 -b .tslibfix
+# Technically, this conditional covers "all rhel (fedora is unset and 0 < 22) and fedora 22 or less".
+# We currently only build for rhel7 and fedora 22. 
+# When RHEL 8 comes out, this will need to be adjusted.
+%if 0%{?fedora} <= 22
+%patch1 -p1 -b .old
+%endif
 autoreconf -ifv
 
 # This is why hardcoding paths is bad.
@@ -482,6 +491,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon Jun 13 2016 Tom Callaway <spot@fedoraproject.org> - 1.17.1-1.1
+- fix old targets (rhel7, f22)
+
 * Mon Jun 13 2016 Tom Callaway <spot@fedoraproject.org> - 1.17.1-1
 - update to 1.17.1
 
