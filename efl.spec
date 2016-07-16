@@ -24,8 +24,8 @@
 
 
 Name:		efl
-Version:	1.17.1
-Release:	2%{?dist}
+Version:	1.17.2
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -45,6 +45,7 @@ BuildRequires:	libXrender-devel libXScrnSaver-devel libXtst-devel libXcursor-dev
 BuildRequires:	libXp-devel libXi-devel mesa-libGL-devel mesa-libEGL-devel
 BuildRequires:	libblkid-devel libmount-devel systemd-devel harfbuzz-devel 
 BuildRequires:	libwebp-devel tslib-devel SDL2-devel SDL-devel c-ares-devel
+BuildRequires:  libxkbcommon-devel uuid-devel
 %if %{with_scim}
 BuildRequires:	scim-devel
 %endif
@@ -52,7 +53,7 @@ BuildRequires:	ibus-devel
 BuildRequires:	doxygen systemd giflib-devel openjpeg-devel libdrm-devel
 %if %{use_wayland}
 BuildRequires:	mesa-libwayland-egl-devel libwayland-client-devel
-BuildRequires:	libwayland-server-devel
+BuildRequires:	libwayland-cursor-devel libwayland-server-devel
 %endif
 BuildRequires:	autoconf automake libtool gettext-devel mesa-libGLES-devel
 BuildRequires:	mesa-libgbm-devel libinput-devel
@@ -491,6 +492,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Fri Jul 15 2016 Ding-Yi Chen <dchen@redhat.com> - 1.17.2-1
+- update to 1.17.2
+
 * Mon Jun 13 2016 Tom Callaway <spot@fedoraproject.org> - 1.17.1-2
 - apply old target changes to rawhide
 
