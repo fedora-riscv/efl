@@ -45,6 +45,7 @@ BuildRequires:	libXrender-devel libXScrnSaver-devel libXtst-devel libXcursor-dev
 BuildRequires:	libXp-devel libXi-devel mesa-libGL-devel mesa-libEGL-devel
 BuildRequires:	libblkid-devel libmount-devel systemd-devel harfbuzz-devel 
 BuildRequires:	libwebp-devel tslib-devel SDL2-devel SDL-devel c-ares-devel
+BuildRequires:  libxkbcommon-devel uuid-devel
 %if %{with_scim}
 BuildRequires:	scim-devel
 %endif
