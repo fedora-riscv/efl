@@ -25,7 +25,7 @@
 
 Name:		efl
 Version:	1.17.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -492,6 +492,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon Aug 29 2016 Igor Gnatenko <ignatenko@redhat.com> - 1.17.2-2
+- Rebuild for LuaJIT 2.1.0
+
 * Fri Jul 15 2016 Ding-Yi Chen <dchen@redhat.com> - 1.17.2-1
 - update to 1.17.2
 
