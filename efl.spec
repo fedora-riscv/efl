@@ -46,6 +46,7 @@ BuildRequires:	libXp-devel libXi-devel mesa-libGL-devel mesa-libEGL-devel
 BuildRequires:	libblkid-devel libmount-devel systemd-devel harfbuzz-devel 
 BuildRequires:	libwebp-devel tslib-devel SDL2-devel SDL-devel c-ares-devel
 BuildRequires:  libxkbcommon-devel uuid-devel
+BuildRequires:	pkgconfig(poppler-cpp) >= 0.12
 %if %{with_scim}
 BuildRequires:	scim-devel
 %endif
