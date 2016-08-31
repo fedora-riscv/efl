@@ -25,7 +25,7 @@
 
 Name:		efl
 Version:	1.18.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -149,6 +149,9 @@ Provides:	eio-devel = %{version}-%{release}
 Provides:	eio-devel%{?_isa} = %{version}-%{release}
 Obsoletes:	eio-devel <= 1.7.10
 Provides:	eldbus-devel%{?_isa} = %{version}-%{release}
+Provides:	elementary-devel = %{version}-%{release}
+Provides:	elementary-devel%{?_isa} = %{version}-%{release}
+Obsoletes:      elementary-devel <= 1.17.1
 Provides:	elocation-devel%{?_isa} = %{version}-%{release}
 Provides:	embryo-devel = %{version}-%{release}
 Provides:	embryo-devel%{?_isa} = %{version}-%{release}
@@ -524,6 +527,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Wed Aug 31 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.0-2
+- properly provide/obsolete elementary-devel
+
 * Mon Aug 29 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.0-1
 - update to 1.18.0
 
