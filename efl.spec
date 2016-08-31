@@ -25,7 +25,7 @@
 
 Name:		efl
 Version:	1.18.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -110,6 +110,9 @@ Obsoletes:	ethumb <= 1.7.10
 Provides:	evas = %{version}-%{release}
 Provides:	evas%{?_isa} = %{version}-%{release}
 Obsoletes:	evas <= 1.7.10
+Provides:	evas-generic-loaders = %{version}-%{release}
+Provides:	evas-generic-loaders%{?_isa} = %{version}-%{release}
+Obsoletes:	evas-generic-loaders <= 1.17.0
 Provides:	libeina = %{version}-%{release}
 Provides:	libeina%{?_isa} = %{version}-%{release}
 Obsoletes:	libeina <= 1.7.10
@@ -527,6 +530,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Wed Aug 31 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.0-3
+- properly provide/obsolete evas-generic-loaders
+
 * Wed Aug 31 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.0-2
 - properly provide/obsolete elementary-devel
 
