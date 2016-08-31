@@ -47,6 +47,7 @@ BuildRequires:	libblkid-devel libmount-devel systemd-devel harfbuzz-devel
 BuildRequires:	libwebp-devel tslib-devel SDL2-devel SDL-devel c-ares-devel
 BuildRequires:  libxkbcommon-devel uuid-devel
 BuildRequires:	pkgconfig(poppler-cpp) >= 0.12
+BuildRequires:	pkgconfig(libspectre)
 %if %{with_scim}
 BuildRequires:	scim-devel
 %endif
