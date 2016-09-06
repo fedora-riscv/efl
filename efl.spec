@@ -25,7 +25,7 @@
 
 Name:		efl
 Version:	1.18.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -218,6 +218,7 @@ sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
 	--enable-drm-hw-accel \
 	--with-opengl=full \
 	--disable-static \
+	--disable-cocoa \
 	--with-profile=release \
 %ifarch %{arm} aarch64
 	--disable-neon \
@@ -232,6 +233,10 @@ make %{?_smp_mflags} V=1
 
 %install
 make install DESTDIR=%{buildroot}
+
+# There is probably a better place to fix this, but I couldn't untangle it.
+sed -i 's|ecore_sdl|ecore-sdl|g' %{buildroot}%{_libdir}/pkgconfig/elementary.pc
+sed -i 's|ecore_sdl|ecore-sdl|g' %{buildroot}%{_libdir}/pkgconfig/elementary-cxx.pc
 
 # fix perms
 chmod -x src/bin/edje/edje_cc_out.c
@@ -530,6 +535,10 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Wed Aug 31 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.0-4
+- explicitly disable cocoa. we are not osx. sloppy configure gets it wrong.
+- fix typo in elementary pc files 
+
 * Wed Aug 31 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.0-3
 - properly provide/obsolete evas-generic-loaders
 
