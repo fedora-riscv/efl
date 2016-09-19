@@ -3,6 +3,11 @@
 %ifarch %{arm} %{ix86} x86_64
 %global has_luajit 1
 %endif
+%ifarch aarch64
+%if %{?fedora} >= 26
+%global has_luajit 1
+%endif
+%endif
 
 # Look, you probably don't want this. scim is so 2012. ibus is the new hotness.
 # Enabling this means you'll almost certainly need to pass ECORE_IMF_MODULE=xim 
@@ -25,7 +30,7 @@
 
 Name:		efl
 Version:	1.18.0
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -535,6 +540,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon Sep 19 2016 Peter Robinson <pbrobinson@fedoraproject.org> 1.18.0-5
+- aarch64 now has LuaJIT
+
 * Wed Aug 31 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.0-4
 - explicitly disable cocoa. we are not osx. sloppy configure gets it wrong.
 - fix typo in elementary pc files 
