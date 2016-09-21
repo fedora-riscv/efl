@@ -29,8 +29,8 @@
 
 
 Name:		efl
-Version:	1.18.0
-Release:	5%{?dist}
+Version:	1.18.1
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -540,6 +540,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Wed Sep 21 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.1-1
+- update to 1.18.1
+
 * Mon Sep 19 2016 Peter Robinson <pbrobinson@fedoraproject.org> 1.18.0-5
 - aarch64 now has LuaJIT
 
