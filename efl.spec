@@ -24,8 +24,8 @@
 
 
 Name:		efl
-Version:	1.18.0
-Release:	4%{?dist}
+Version:	1.18.1
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -535,6 +535,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Wed Sep 21 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.1-1
+- update to 1.18.1
+
 * Wed Aug 31 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.0-4
 - explicitly disable cocoa. we are not osx. sloppy configure gets it wrong.
 - fix typo in elementary pc files 
