@@ -29,7 +29,7 @@
 
 
 Name:		efl
-Version:	1.18.1
+Version:	1.18.2
 Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
@@ -40,6 +40,9 @@ Patch0:		efl-1.11.4-tslibfix.patch
 # There is probably a way to conditionalize this in the code that could go upstream
 # but this works for now.
 Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
+# Support openssl 1.1+
+# https://phab.enlightenment.org/T4746
+Patch2:		efl-1.18.2-openssl-1.1.patch
 BuildRequires:	bullet-devel libpng-devel libjpeg-devel gstreamer1-devel zlib-devel
 BuildRequires:	gstreamer1-plugins-base-devel libtiff-devel openssl-devel
 BuildRequires:	curl-devel dbus-devel glibc-devel fontconfig-devel freetype-devel
@@ -192,6 +195,7 @@ Development files for EFL.
 %if 0%{?fedora} <= 22
 %patch1 -p1 -b .old
 %endif
+%patch2 -p1 -b .openssl11
 autoreconf -ifv
 
 # This is why hardcoding paths is bad.
@@ -540,6 +544,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Wed Oct 19 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.2-1
+- update to 1.18.2
+
 * Wed Sep 21 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.1-1
 - update to 1.18.1
 
