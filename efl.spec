@@ -30,7 +30,7 @@
 
 Name:		efl
 Version:	1.18.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -235,7 +235,7 @@ sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
 %if ! 0%{?has_luajit}
 	--enable-lua-old \
 %endif
-	--with-systemdunitdir=%{_unitdir}
+	--with-systemdunitdir=%{_userunitdir}
 make %{?_smp_mflags} V=1
 # This makes doxygen segfault. :/
 # make %{?_smp_mflags} doc V=1
@@ -256,7 +256,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 %post
 /sbin/ldconfig
-%systemd_post ethumb.service
+%systemd_user_post ethumb.service
 /bin/touch --no-create %{_datadir}/mime/packages &>/dev/null || :
 
 %postun
@@ -264,13 +264,13 @@ if [ $1 -eq 0 ] ; then
   /usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :
 fi
 /sbin/ldconfig
-%systemd_postun_with_restart ethumb.service
+%systemd_user_postun ethumb.service
 
 %posttrans
 /usr/bin/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 %preun
-%systemd_preun ethumb.service
+%systemd_user_preun ethumb.service
 
 %files -f %{name}.lang
 %{!?_licensedir:%global license %%doc}
@@ -370,7 +370,7 @@ fi
 %{_bindir}/ethumb
 %{_bindir}/ethumbd
 %{_bindir}/ethumbd_client
-%{_unitdir}/ethumb.service
+%{_userunitdir}/ethumb.service
 %{_libdir}/ethumb/
 %{_libdir}/ethumb_client/
 %{_libdir}/libethumb.so.1*
@@ -544,6 +544,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Thu Dec  1 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.3-2
+- fix systemd handling
+
 * Mon Nov 28 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.3-1
 - update to 1.18.3
 
