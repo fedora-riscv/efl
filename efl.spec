@@ -29,8 +29,8 @@
 
 
 Name:		efl
-Version:	1.18.3
-Release:	2%{?dist}
+Version:	1.18.4
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -544,6 +544,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Fri Dec  9 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.4-1
+- update to 1.18.4
+
 * Thu Dec  1 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.3-2
 - fix systemd handling
 
