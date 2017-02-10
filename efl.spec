@@ -30,7 +30,7 @@
 
 Name:		efl
 Version:	1.18.4
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -544,6 +544,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Wed Feb 01 2017 Sandro Mani <manisandro@gmail.com> - 1.18.4-3
 - Rebuild (libwebp)
 
