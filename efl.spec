@@ -29,8 +29,8 @@
 
 
 Name:		efl
-Version:	1.18.4
-Release:	4%{?dist}
+Version:	1.19.0
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -40,9 +40,6 @@ Patch0:		efl-1.11.4-tslibfix.patch
 # There is probably a way to conditionalize this in the code that could go upstream
 # but this works for now.
 Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
-# Support openssl 1.1+
-# https://phab.enlightenment.org/T4746
-Patch2:		efl-1.18.2-openssl-1.1.patch
 BuildRequires:	bullet-devel libpng-devel libjpeg-devel gstreamer1-devel zlib-devel
 BuildRequires:	gstreamer1-plugins-base-devel libtiff-devel openssl-devel
 BuildRequires:	curl-devel dbus-devel glibc-devel fontconfig-devel freetype-devel
@@ -53,7 +50,7 @@ BuildRequires:	libXrender-devel libXScrnSaver-devel libXtst-devel libXcursor-dev
 BuildRequires:	libXp-devel libXi-devel mesa-libGL-devel mesa-libEGL-devel
 BuildRequires:	libblkid-devel libmount-devel systemd-devel harfbuzz-devel 
 BuildRequires:	libwebp-devel tslib-devel SDL2-devel SDL-devel c-ares-devel
-BuildRequires:  libxkbcommon-devel uuid-devel
+BuildRequires:	libxkbcommon-devel uuid-devel
 BuildRequires:	pkgconfig(poppler-cpp) >= 0.12
 BuildRequires:	pkgconfig(libspectre) pkgconfig(libraw)
 BuildRequires:	pkgconfig(librsvg-2.0) >= 2.14.0 
@@ -66,6 +63,7 @@ BuildRequires:	doxygen systemd giflib-devel openjpeg-devel libdrm-devel
 %if %{use_wayland}
 BuildRequires:	mesa-libwayland-egl-devel libwayland-client-devel >= 1.11.0
 BuildRequires:	libwayland-cursor-devel libwayland-server-devel
+BuildRequires:	wayland-protocols-devel >= 1.7
 %endif
 BuildRequires:	autoconf automake libtool gettext-devel mesa-libGLES-devel
 BuildRequires:	mesa-libgbm-devel libinput-devel
@@ -162,7 +160,7 @@ Obsoletes:	eio-devel <= 1.7.10
 Provides:	eldbus-devel%{?_isa} = %{version}-%{release}
 Provides:	elementary-devel = %{version}-%{release}
 Provides:	elementary-devel%{?_isa} = %{version}-%{release}
-Obsoletes:      elementary-devel <= 1.17.1
+Obsoletes:	elementary-devel <= 1.17.1
 Provides:	elocation-devel%{?_isa} = %{version}-%{release}
 Provides:	embryo-devel = %{version}-%{release}
 Provides:	embryo-devel%{?_isa} = %{version}-%{release}
@@ -195,7 +193,6 @@ Development files for EFL.
 %if 0%{?fedora} <= 22
 %patch1 -p1 -b .old
 %endif
-%patch2 -p1 -b .openssl11
 autoreconf -ifv
 
 # This is why hardcoding paths is bad.
@@ -283,9 +280,9 @@ fi
 # ecore
 %{_bindir}/ecore_evas_convert
 %{_libdir}/ecore/
+%{_libdir}/ecore_con/
 %{_libdir}/ecore_evas/
 %{_libdir}/ecore_imf/
-%{_libdir}/ecore_x/
 %{_libdir}/libecore*.so.*
 %{_datadir}/ecore/
 %{_datadir}/ecore_imf/
@@ -304,6 +301,7 @@ fi
 %{_libdir}/libeet.so.*
 # eeze
 %attr(0755,root,root) %caps(cap_audit_write,cap_chown,cap_setuid,cap_sys_admin=pe) %{_bindir}/eeze_scanner
+%{_bindir}/eeze_scanner_monitor
 %{_bindir}/eeze_disk_ls
 %{_bindir}/eeze_mount
 %{_bindir}/eeze_umount
@@ -320,6 +318,7 @@ fi
 %{_libdir}/libefreet_trash.so.1*
 # eina
 %{_bindir}/eina_btlog
+%{_bindir}/eina_modinfo
 %{_libdir}/libeina.so.*
 # eio
 %{_libdir}/libeio.so.1*
@@ -358,7 +357,9 @@ fi
 %{_libdir}/emotion/
 %{_libdir}/libemotion.so.1*
 # eo
+%{_bindir}/eo_debug
 %{_libdir}/libeo.so.1*
+%{_libdir}/libeo_dbg.so.1*
 %{_datadir}/gdb/auto-load/%{_libdir}/libeo.so.1*
 # eolian
 %{_bindir}/eolian_cxx
@@ -510,6 +511,7 @@ fi
 %{_libdir}/cmake/Eo/
 %{_libdir}/cmake/EoCxx/
 %{_libdir}/libeo.so
+%{_libdir}/libeo_dbg.so
 %{_libdir}/pkgconfig/eo.pc
 %{_libdir}/pkgconfig/eo-cxx.pc
 %{_datadir}/eo/
@@ -544,6 +546,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Tue Apr 18 2017 Sereinity <sereinit@fedoraproject.org> - 1.19.0-1
+- update to 1.19.0
+
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.4-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
