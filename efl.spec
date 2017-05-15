@@ -3,9 +3,11 @@
 %ifarch %{arm} %{ix86} x86_64
 %global has_luajit 1
 %endif
+# PANIC: unprotected error in call to Lua API (bad light userdata pointer)
+# Disabling luajit for aarch64
 %ifarch aarch64
 %if %{?fedora} >= 26
-%global has_luajit 1
+%global has_luajit 0
 %endif
 %endif
 
@@ -30,7 +32,7 @@
 
 Name:		efl
 Version:	1.19.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -546,6 +548,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon May 15 2017 Tom Callaway <spot@fedoraproject.org> - 1.19.0-3
+- disable luajit for aarch64
+
 * Mon May 15 2017 Tom Callaway <spot@fedoraproject.org> - 1.19.0-2
 - rebuild for new tslib, luajit
 
