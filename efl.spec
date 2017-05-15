@@ -3,9 +3,11 @@
 %ifarch %{arm} %{ix86} x86_64
 %global has_luajit 1
 %endif
+# PANIC: unprotected error in call to Lua API (bad light userdata pointer)
+# Disabling luajit for aarch64
 %ifarch aarch64
 %if %{?fedora} >= 26
-%global has_luajit 1
+%global has_luajit 0
 %endif
 %endif
 
@@ -30,16 +32,16 @@
 
 Name:		efl
 Version:	1.19.0
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
 Source0:	http://download.enlightenment.org/rel/libs/efl/efl-%{version}.tar.xz
-# I think this one is Fedora specific.
-Patch0:		efl-1.11.4-tslibfix.patch
 # There is probably a way to conditionalize this in the code that could go upstream
 # but this works for now.
 Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
+# If luaL_reg is not defined, define it.
+Patch2:		efl-1.19.0-luajitfix.patch
 BuildRequires:	bullet-devel libpng-devel libjpeg-devel gstreamer1-devel zlib-devel
 BuildRequires:	gstreamer1-plugins-base-devel libtiff-devel openssl-devel
 BuildRequires:	curl-devel dbus-devel glibc-devel fontconfig-devel freetype-devel
@@ -186,13 +188,13 @@ Development files for EFL.
 
 %prep
 %setup -q
-%patch0 -p1 -b .tslibfix
 # Technically, this conditional covers "all rhel (fedora is unset and 0 < 22) and fedora 22 or less".
 # We currently only build for rhel7 and fedora 22. 
 # When RHEL 8 comes out, this will need to be adjusted.
 %if 0%{?fedora} <= 22
 %patch1 -p1 -b .old
 %endif
+%patch2 -p1 -b .luajitfix
 autoreconf -ifv
 
 # This is why hardcoding paths is bad.
@@ -546,8 +548,23 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon May 15 2017 Tom Callaway <spot@fedoraproject.org> - 1.19.0-3
+- disable luajit for aarch64
+
+* Mon May 15 2017 Tom Callaway <spot@fedoraproject.org> - 1.19.0-2
+- rebuild for new tslib, luajit
+
 * Tue Apr 18 2017 Sereinity <sereinit@fedoraproject.org> - 1.19.0-1
 - update to 1.19.0
+
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.18.4-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
+* Wed Feb 01 2017 Sandro Mani <manisandro@gmail.com> - 1.18.4-3
+- Rebuild (libwebp)
+
+* Tue Dec 27 2016 Jon Ciesla <limburgher@gmail.com> - 1.18.4-2
+- Rebuild for new LibRaw.
 
 * Fri Dec  9 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.4-1
 - update to 1.18.4
