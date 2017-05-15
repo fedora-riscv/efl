@@ -38,6 +38,8 @@ Source0:	http://download.enlightenment.org/rel/libs/efl/efl-%{version}.tar.xz
 # There is probably a way to conditionalize this in the code that could go upstream
 # but this works for now.
 Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
+# If luaL_reg is not defined, define it.
+Patch2:		efl-1.19.0-luajitfix.patch
 BuildRequires:	bullet-devel libpng-devel libjpeg-devel gstreamer1-devel zlib-devel
 BuildRequires:	gstreamer1-plugins-base-devel libtiff-devel openssl-devel
 BuildRequires:	curl-devel dbus-devel glibc-devel fontconfig-devel freetype-devel
@@ -190,6 +192,7 @@ Development files for EFL.
 %if 0%{?fedora} <= 22
 %patch1 -p1 -b .old
 %endif
+%patch2 -p1 -b .luajitfix
 autoreconf -ifv
 
 # This is why hardcoding paths is bad.
