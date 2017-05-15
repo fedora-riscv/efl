@@ -14,12 +14,12 @@
 # to get anything to work. (*cough*terminology*cough*)
 %global with_scim 0
 
-# Fedora <= 22 and EPEL 7 does not have wayland dependency
+# Fedora <= 24 and EPEL 7 does not have wayland dependency
 %if 0%{?fedora}
-%if %{?fedora} >= 23
+%if %{?fedora} > 24
 %global use_wayland 1
 %else
-# fedora <= 22
+# fedora <= 24
 %global use_wayland 0
 %endif
 %else
@@ -59,7 +59,7 @@ BuildRequires:	scim-devel
 BuildRequires:	ibus-devel
 BuildRequires:	doxygen systemd giflib-devel openjpeg-devel libdrm-devel
 %if %{use_wayland}
-BuildRequires:	mesa-libwayland-egl-devel libwayland-client-devel >= 1.10.0
+BuildRequires:	mesa-libwayland-egl-devel libwayland-client-devel >= 1.11.0
 BuildRequires:	libwayland-cursor-devel libwayland-server-devel
 %endif
 BuildRequires:	autoconf automake libtool gettext-devel mesa-libGLES-devel
