@@ -3,23 +3,18 @@
 %ifarch %{arm} %{ix86} x86_64
 %global has_luajit 1
 %endif
-%ifarch aarch64
-%if %{?fedora} >= 26
-%global has_luajit 1
-%endif
-%endif
 
 # Look, you probably don't want this. scim is so 2012. ibus is the new hotness.
 # Enabling this means you'll almost certainly need to pass ECORE_IMF_MODULE=xim 
 # to get anything to work. (*cough*terminology*cough*)
 %global with_scim 0
 
-# Fedora <= 24 and EPEL 7 does not have wayland dependency
+# Fedora <= 22 and EPEL 7 does not have wayland dependency
 %if 0%{?fedora}
-%if %{?fedora} > 24
+%if %{?fedora} >= 23
 %global use_wayland 1
 %else
-# fedora <= 24
+# fedora <= 22
 %global use_wayland 0
 %endif
 %else
@@ -29,7 +24,7 @@
 
 
 Name:		efl
-Version:	1.18.1
+Version:	1.17.2
 Release:	2%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
@@ -49,17 +44,13 @@ BuildRequires:	libXp-devel libXi-devel mesa-libGL-devel mesa-libEGL-devel
 BuildRequires:	libblkid-devel libmount-devel systemd-devel harfbuzz-devel 
 BuildRequires:	libwebp-devel tslib-devel SDL2-devel SDL-devel c-ares-devel
 BuildRequires:  libxkbcommon-devel uuid-devel
-BuildRequires:	pkgconfig(poppler-cpp) >= 0.12
-BuildRequires:	pkgconfig(libspectre) pkgconfig(libraw)
-BuildRequires:	pkgconfig(librsvg-2.0) >= 2.14.0 
-BuildRequires:	pkgconfig(cairo) >= 1.0.0
 %if %{with_scim}
 BuildRequires:	scim-devel
 %endif
 BuildRequires:	ibus-devel
 BuildRequires:	doxygen systemd giflib-devel openjpeg-devel libdrm-devel
 %if %{use_wayland}
-BuildRequires:	mesa-libwayland-egl-devel libwayland-client-devel >= 1.11.0
+BuildRequires:	mesa-libwayland-egl-devel libwayland-client-devel
 BuildRequires:	libwayland-cursor-devel libwayland-server-devel
 %endif
 BuildRequires:	autoconf automake libtool gettext-devel mesa-libGLES-devel
@@ -93,9 +84,6 @@ Provides:	eio = %{version}-%{release}
 Provides:	eio%{?_isa} = %{version}-%{release}
 Obsoletes:	eio <= 1.7.10
 Provides:	eldbus%{?_isa} = %{version}-%{release}
-Provides:	elementary = %{version}-%{release}
-Provides:	elementary%{?_isa} = %{version}-%{release}
-Obsoletes:	elementary <= 1.17.1
 Provides:	elocation%{?_isa} = %{version}-%{release}
 Provides:	elua%{?_isa} = %{version}-%{release}
 Provides:	embryo = %{version}-%{release}
@@ -113,9 +101,6 @@ Obsoletes:	ethumb <= 1.7.10
 Provides:	evas = %{version}-%{release}
 Provides:	evas%{?_isa} = %{version}-%{release}
 Obsoletes:	evas <= 1.7.10
-Provides:	evas-generic-loaders = %{version}-%{release}
-Provides:	evas-generic-loaders%{?_isa} = %{version}-%{release}
-Obsoletes:	evas-generic-loaders <= 1.17.0
 Provides:	libeina = %{version}-%{release}
 Provides:	libeina%{?_isa} = %{version}-%{release}
 Obsoletes:	libeina <= 1.7.10
@@ -155,9 +140,6 @@ Provides:	eio-devel = %{version}-%{release}
 Provides:	eio-devel%{?_isa} = %{version}-%{release}
 Obsoletes:	eio-devel <= 1.7.10
 Provides:	eldbus-devel%{?_isa} = %{version}-%{release}
-Provides:	elementary-devel = %{version}-%{release}
-Provides:	elementary-devel%{?_isa} = %{version}-%{release}
-Obsoletes:      elementary-devel <= 1.17.1
 Provides:	elocation-devel%{?_isa} = %{version}-%{release}
 Provides:	embryo-devel = %{version}-%{release}
 Provides:	embryo-devel%{?_isa} = %{version}-%{release}
@@ -215,12 +197,10 @@ sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
 %if %{use_wayland}
 	--enable-wayland \
 %endif
-	--enable-elput \
 	--enable-drm \
 	--enable-drm-hw-accel \
 	--with-opengl=full \
 	--disable-static \
-	--disable-cocoa \
 	--with-profile=release \
 %ifarch %{arm} aarch64
 	--disable-neon \
@@ -235,10 +215,6 @@ make %{?_smp_mflags} V=1
 
 %install
 make install DESTDIR=%{buildroot}
-
-# There is probably a better place to fix this, but I couldn't untangle it.
-sed -i 's|ecore_sdl|ecore-sdl|g' %{buildroot}%{_libdir}/pkgconfig/elementary.pc
-sed -i 's|ecore_sdl|ecore-sdl|g' %{buildroot}%{_libdir}/pkgconfig/elementary-cxx.pc
 
 # fix perms
 chmod -x src/bin/edje/edje_cc_out.c
@@ -272,7 +248,6 @@ fi
 %{_libdir}/libefl.so.1*
 %{_bindir}/efl_debug
 %{_bindir}/efl_debugd
-%{_datadir}/icons/Enlightenment-X/
 # ecore
 %{_bindir}/ecore_evas_convert
 %{_libdir}/ecore/
@@ -319,22 +294,8 @@ fi
 # eldbus
 %{_bindir}/eldbus-codegen
 %{_libdir}/libeldbus.so.1*
-# elementary
-%{_bindir}/elementary_codegen
-%{_bindir}/elementary_config
-%{_bindir}/elementary_quicklaunch
-%{_bindir}/elementary_run
-%{_bindir}/elementary_test
-%{_bindir}/elm_prefs_cc
-%{_libdir}/libelementary.so.1*
-%{_libdir}/elementary/
-%{_datadir}/applications/elementary*.desktop
-%{_datadir}/elementary/
-%{_datadir}/icons/elementary.png
 # elocation
 %{_libdir}/libelocation.so.1*
-# elput
-%{_libdir}/libelput.so.1*
 # elua
 %if 0%{?has_luajit}
 %{_bindir}/elua
@@ -387,10 +348,11 @@ fi
 # ecore-devel
 %{_includedir}/ecore-1/
 %{_includedir}/ecore-audio-1/
+%{_includedir}/ecore-audio-cxx-1/
 %{_includedir}/ecore-avahi-1/
 %{_includedir}/ecore-con-1/
 %{_includedir}/ecore-cxx-1/
-%{_includedir}/ecore-drm2-1/
+%{_includedir}/ecore-drm-1/
 %{_includedir}/ecore-evas-1/
 %{_includedir}/ecore-fb-1/
 %{_includedir}/ecore-file-1/
@@ -401,6 +363,7 @@ fi
 %{_includedir}/ecore-ipc-1/
 %{_includedir}/ecore-sdl-1/
 %if %{use_wayland}
+%{_includedir}/ecore-wayland-1/
 %{_includedir}/ecore-wl2-1/
 %endif
 %{_includedir}/ecore-x-1/
@@ -458,21 +421,10 @@ fi
 %{_libdir}/cmake/Eldbus/
 %{_libdir}/libeldbus.so
 %{_libdir}/pkgconfig/eldbus.pc
-# elementary-devel
-%{_includedir}/elementary-1/
-%{_includedir}/elementary-cxx-1/
-%{_libdir}/cmake/Elementary/
-%{_libdir}/libelementary.so
-%{_libdir}/pkgconfig/elementary.pc
-%{_libdir}/pkgconfig/elementary-cxx.pc
 # elocation-devel
 %{_includedir}/elocation-1/
 %{_libdir}/libelocation.so
 %{_libdir}/pkgconfig/elocation.pc
-# elput-devel
-%{_includedir}/elput-1/
-%{_libdir}/libelput.so
-%{_libdir}/pkgconfig/elput.pc
 # elua-devel
 %if 0%{?has_luajit}
 %{_includedir}/elua-1/
@@ -537,30 +489,8 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
-* Mon May 15 2017 Tom Callaway <spot@fedoraproject.org> - 1.18.1-2
-- rebuild for new tslib
-
-* Wed Sep 21 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.1-1
-- update to 1.18.1
-
-* Mon Sep 19 2016 Peter Robinson <pbrobinson@fedoraproject.org> 1.18.0-5
-- aarch64 now has LuaJIT
-
-* Wed Aug 31 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.0-4
-- explicitly disable cocoa. we are not osx. sloppy configure gets it wrong.
-- fix typo in elementary pc files 
-
-* Wed Aug 31 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.0-3
-- properly provide/obsolete evas-generic-loaders
-
-* Wed Aug 31 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.0-2
-- properly provide/obsolete elementary-devel
-
-* Mon Aug 29 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.0-1
-- update to 1.18.0
-
-* Mon Aug 29 2016 Igor Gnatenko <ignatenko@redhat.com> - 1.17.2-2
-- Rebuild for LuaJIT 2.1.0
+* Mon May 15 2017 Tom Callaway <spot@fedoraproject.org> - 1.17.2-2
+- rebuild for newer tslib
 
 * Fri Jul 15 2016 Ding-Yi Chen <dchen@redhat.com> - 1.17.2-1
 - update to 1.17.2
