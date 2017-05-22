@@ -31,8 +31,8 @@
 
 
 Name:		efl
-Version:	1.19.0
-Release:	4%{?dist}
+Version:	1.19.1
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -548,6 +548,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon May 22 2017 Tom Callaway <spot@fedoraproject.org> - 1.19.1-1
+- update to 1.19.1
+
 * Mon May 15 2017 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.19.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_27_Mass_Rebuild
 
