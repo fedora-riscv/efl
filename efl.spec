@@ -32,7 +32,7 @@
 
 Name:		efl
 Version:	1.19.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -74,6 +74,8 @@ BuildRequires:	luajit-devel
 %else
 BuildRequires:	lua-devel
 %endif
+# For AutoReq cmake-filesystem
+BuildRequires:	cmake
 # These are convenience provides to aid in migration
 Provides:	e_dbus%{?_isa} = %{version}-%{release}
 Provides:	e_dbus = %{version}-%{release}
@@ -548,6 +550,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Sun Aug 06 2017 Björn Esser <besser82@fedoraproject.org> - 1.19.1-4
+- Rebuilt for AutoReq cmake-filesystem
+
 * Wed Aug 02 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.19.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 
