@@ -31,8 +31,8 @@
 
 
 Name:		efl
-Version:	1.19.1
-Release:	4%{?dist}
+Version:	1.20.1
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -278,6 +278,7 @@ fi
 %license COPYING licenses/COPYING.BSD licenses/COPYING.GPL licenses/COPYING.LGPL licenses/COPYING.SMALL
 %doc AUTHORS COMPLIANCE NEWS README
 %{_libdir}/libefl.so.1*
+%{_libdir}/libefl_wl.so.1*
 %{_bindir}/efl_debug
 %{_bindir}/efl_debugd
 %{_datadir}/icons/Enlightenment-X/
@@ -392,9 +393,13 @@ fi
 %files devel
 %{_includedir}/efl-1/
 %{_includedir}/efl-cxx-1/
+%{_includedir}/efl-wl-1/
+%{_bindir}/efl_wl_test*
 %{_libdir}/cmake/Efl/
 %{_libdir}/libefl.so
+%{_libdir}/libefl_wl.so
 %{_libdir}/pkgconfig/efl-cxx.pc
+%{_libdir}/pkgconfig/efl-wl.pc
 %{_libdir}/pkgconfig/efl.pc
 # ecore-devel
 %{_includedir}/ecore-1/
@@ -550,6 +555,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon Aug 07 2017 Tom Callaway <spot@fedoraproject.org> - 1.20.1-1
+- update to 1.20.1
+
 * Sun Aug 06 2017 Björn Esser <besser82@fedoraproject.org> - 1.19.1-4
 - Rebuilt for AutoReq cmake-filesystem
 
