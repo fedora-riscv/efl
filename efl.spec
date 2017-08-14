@@ -42,6 +42,10 @@ Source0:	http://download.enlightenment.org/rel/libs/efl/efl-%{version}.tar.xz
 Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
 # If luaL_reg is not defined, define it.
 Patch2:		efl-1.19.0-luajitfix.patch
+# s390x does not build
+# lib/eina/.libs/libeina.so: undefined reference to `eina_swap32'
+ExcludeArch:	s390x
+BuildRequires:	libunwind-devel
 BuildRequires:	bullet-devel libpng-devel libjpeg-devel gstreamer1-devel zlib-devel
 BuildRequires:	gstreamer1-plugins-base-devel libtiff-devel openssl-devel
 BuildRequires:	curl-devel dbus-devel glibc-devel fontconfig-devel freetype-devel
@@ -557,6 +561,8 @@ fi
 %changelog
 * Fri Aug 11 2017 Tom Callaway <spot@fedoraproject.org> - 1.20.2-1
 - update to 1.20.2
+- BR: libunwind-devel
+- ExcludeArch: s390x
 
 * Mon Aug 07 2017 Tom Callaway <spot@fedoraproject.org> - 1.20.1-1
 - update to 1.20.1
