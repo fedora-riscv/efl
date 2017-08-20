@@ -1,5 +1,8 @@
 %global _hardened_build 1
 
+%if 0%{?rhel}
+%global has_luajit 0
+%else
 %ifarch %{arm} %{ix86} x86_64
 %global has_luajit 1
 %endif
@@ -8,6 +11,7 @@
 %ifarch aarch64
 %if %{?fedora} >= 26
 %global has_luajit 0
+%endif
 %endif
 %endif
 
