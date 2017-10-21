@@ -35,7 +35,7 @@
 
 
 Name:		efl
-Version:	1.20.3
+Version:	1.20.4
 Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
@@ -46,9 +46,6 @@ Source0:	http://download.enlightenment.org/rel/libs/efl/efl-%{version}.tar.xz
 Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
 # If luaL_reg is not defined, define it.
 Patch2:		efl-1.19.0-luajitfix.patch
-# fix build on big endians
-# lib/eina/.libs/libeina.so: undefined reference to `eina_swap32'
-Patch3:		efl-1.20.2-endian.patch
 %ifnarch s390 s390x
 BuildRequires:	libunwind-devel
 %endif
@@ -207,7 +204,6 @@ Development files for EFL.
 %patch1 -p1 -b .old
 %endif
 %patch2 -p1 -b .luajitfix
-%patch3 -p1 -b .endian
 autoreconf -ifv
 
 # This is why hardcoding paths is bad.
@@ -566,6 +562,10 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Sat Oct 21 2017 Benoît Marcelin <sereinity@sereinity.fr> - 1.20.4-1
+- update to 1.20.4
+- remove (merged upstream) patch about builds on big indians
+
 * Fri Sep  1 2017 Tom Callaway <spot@fedoraproject.org> - 1.20.3-1
 - update to 1.20.3
 
