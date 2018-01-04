@@ -1,6 +1,6 @@
 %global _hardened_build 1
 
-%if 0%{?rhel}
+%if 0%{?rhel} && 0%{?rhel} <= 7
 %global has_luajit 0
 %else
 %ifarch %{arm} %{ix86} x86_64
@@ -9,9 +9,7 @@
 # PANIC: unprotected error in call to Lua API (bad light userdata pointer)
 # Disabling luajit for aarch64
 %ifarch aarch64
-%if %{?fedora} >= 26
 %global has_luajit 0
-%endif
 %endif
 %endif
 
@@ -21,13 +19,8 @@
 %global with_scim 0
 
 # Fedora <= 22 and EPEL 7 does not have wayland dependency
-%if 0%{?fedora}
-%if %{?fedora} >= 23
+%if 0%{?fedora} || 0%{?rhel} > 7
 %global use_wayland 1
-%else
-# fedora <= 22
-%global use_wayland 0
-%endif
 %else
 # EPEL
 %global use_wayland 0
@@ -36,7 +29,7 @@
 
 Name:		efl
 Version:	1.20.5
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -197,10 +190,7 @@ Development files for EFL.
 
 %prep
 %setup -q
-# Technically, this conditional covers "all rhel (fedora is unset and 0 < 22) and fedora 22 or less".
-# We currently only build for rhel7 and fedora 22. 
-# When RHEL 8 comes out, this will need to be adjusted.
-%if 0%{?fedora} <= 22
+%if 0%{?rhel} && 0%{?rhel} <= 7
 %patch1 -p1 -b .old
 %endif
 %patch2 -p1 -b .luajitfix
@@ -562,6 +552,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Thu Jan 04 2018 Troy Dawson <tdawson@redhat.com> - 1.20.5-3
+- Update conditional
+
 * Mon Dec 18 2017 Rich Mattes <richmattes@gmail.com> - 1.20.5-2
 - Rebuild for bullet-2.87
 
