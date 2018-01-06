@@ -29,7 +29,7 @@
 
 Name:		efl
 Version:	1.20.5
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -255,23 +255,15 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %post
 /sbin/ldconfig
 %systemd_user_post ethumb.service
-/bin/touch --no-create %{_datadir}/mime/packages &>/dev/null || :
 
 %postun
-if [ $1 -eq 0 ] ; then
-  /usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :
-fi
 /sbin/ldconfig
 %systemd_user_postun ethumb.service
-
-%posttrans
-/usr/bin/update-mime-database %{?fedora:-n} %{_datadir}/mime &> /dev/null || :
 
 %preun
 %systemd_user_preun ethumb.service
 
 %files -f %{name}.lang
-%{!?_licensedir:%global license %%doc}
 %license COPYING licenses/COPYING.BSD licenses/COPYING.GPL licenses/COPYING.LGPL licenses/COPYING.SMALL
 %doc AUTHORS COMPLIANCE NEWS README
 %{_libdir}/libefl.so.1*
@@ -552,6 +544,9 @@ fi
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Sat Jan 06 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.20.5-4
+- Remove obsolete scriptlets
+
 * Thu Jan 04 2018 Troy Dawson <tdawson@redhat.com> - 1.20.5-3
 - Update conditional
 
