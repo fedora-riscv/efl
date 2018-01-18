@@ -29,7 +29,7 @@
 
 Name:		efl
 Version:	1.20.5
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -61,7 +61,7 @@ BuildRequires:	pkgconfig(cairo) >= 1.0.0
 BuildRequires:	scim-devel
 %endif
 BuildRequires:	ibus-devel
-BuildRequires:	doxygen systemd giflib-devel openjpeg-devel libdrm-devel
+BuildRequires:	doxygen systemd giflib-devel openjpeg2-devel libdrm-devel
 %if %{use_wayland}
 BuildRequires:	mesa-libwayland-egl-devel libwayland-client-devel >= 1.11.0
 BuildRequires:	libwayland-cursor-devel libwayland-server-devel
@@ -544,6 +544,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Wed Jan 17 2018 Sandro Mani <manisandro@gmail.com> - 1.20.5-5
+- Switch to openjpeg2
+
 * Sat Jan 06 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.20.5-4
 - Remove obsolete scriptlets
 
