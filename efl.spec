@@ -29,7 +29,7 @@
 
 Name:		efl
 Version:	1.20.5
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -544,6 +544,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.20.5-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
 * Wed Jan 17 2018 Sandro Mani <manisandro@gmail.com> - 1.20.5-5
 - Switch to openjpeg2
 
