@@ -42,7 +42,7 @@ Patch2:		efl-1.19.0-luajitfix.patch
 %ifnarch s390 s390x
 BuildRequires:	libunwind-devel
 %endif
-BuildRequires:  g++
+BuildRequires:  gcc-c++
 BuildRequires:	bullet-devel libpng-devel libjpeg-devel gstreamer1-devel zlib-devel
 BuildRequires:	gstreamer1-plugins-base-devel libtiff-devel openssl-devel
 BuildRequires:	curl-devel dbus-devel glibc-devel fontconfig-devel freetype-devel
