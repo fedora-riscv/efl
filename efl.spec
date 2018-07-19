@@ -29,7 +29,7 @@
 
 Name:		efl
 Version:	1.20.7
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -544,6 +544,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Thu Jul 19 2018 Adam Williamson <awilliam@redhat.com> - 1.20.7-4
+- Rebuild for new libraw
+
 * Thu Jul 12 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.20.7-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
