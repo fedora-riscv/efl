@@ -28,8 +28,8 @@
 
 
 Name:		efl
-Version:	1.20.7
-Release:	4%{?dist}
+Version:	1.21.0
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -38,7 +38,10 @@ Source0:	http://download.enlightenment.org/rel/libs/efl/efl-%{version}.tar.xz
 # but this works for now.
 Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
 # If luaL_reg is not defined, define it.
-Patch2:		efl-1.19.0-luajitfix.patch
+Patch2:		efl-1.21.0-luajitfix.patch
+# This printf is safe even if format-security disagrees
+Patch3:		efl-1.21.0-use-pragma-to-ignore-safe-printf.patch
+
 %ifnarch s390 s390x
 BuildRequires:	libunwind-devel
 %endif
@@ -53,7 +56,7 @@ BuildRequires:	libXrender-devel libXScrnSaver-devel libXtst-devel libXcursor-dev
 BuildRequires:	libXp-devel libXi-devel mesa-libGL-devel mesa-libEGL-devel
 BuildRequires:	libblkid-devel libmount-devel systemd-devel harfbuzz-devel 
 BuildRequires:	libwebp-devel tslib-devel SDL2-devel SDL-devel c-ares-devel
-BuildRequires:	libxkbcommon-devel uuid-devel
+BuildRequires:	libxkbcommon-devel uuid-devel libxkbcommon-x11-devel
 BuildRequires:	pkgconfig(poppler-cpp) >= 0.12
 BuildRequires:	pkgconfig(libspectre) pkgconfig(libraw)
 BuildRequires:	pkgconfig(librsvg-2.0) >= 2.14.0 
@@ -195,6 +198,7 @@ Development files for EFL.
 %patch1 -p1 -b .old
 %endif
 %patch2 -p1 -b .luajitfix
+%patch3 -p1 -b .pragma
 autoreconf -ifv
 
 # This is why hardcoding paths is bad.
@@ -278,6 +282,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/ecore_con/
 %{_libdir}/ecore_evas/
 %{_libdir}/ecore_imf/
+%{_libdir}/ecore_wl2/
 %{_libdir}/libecore*.so.*
 %{_datadir}/ecore/
 %{_datadir}/ecore_imf/
@@ -331,7 +336,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/elementary/
 %{_datadir}/applications/elementary*.desktop
 %{_datadir}/elementary/
-%{_datadir}/icons/elementary.png
+%{_datadir}/icons/hicolor/*/apps/elementary.png
 # elocation
 %{_libdir}/libelocation.so.1*
 # elput
@@ -388,7 +393,10 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/cmake/Efl/
 %{_libdir}/libefl.so
 %{_libdir}/libefl_wl.so
+%{_libdir}/pkgconfig/efl-core.pc
 %{_libdir}/pkgconfig/efl-cxx.pc
+%{_libdir}/pkgconfig/efl-net.pc
+%{_libdir}/pkgconfig/efl-ui.pc
 %{_libdir}/pkgconfig/efl-wl.pc
 %{_libdir}/pkgconfig/efl.pc
 # ecore-devel
@@ -545,6 +553,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Sat Aug 18 2018 Tom Callaway <spot@fedoraproject.org> - 1.21.0-1
+- Update to 1.21.0
+
 * Thu Jul 19 2018 Adam Williamson <awilliam@redhat.com> - 1.20.7-4
 - Rebuild for new libraw
 
