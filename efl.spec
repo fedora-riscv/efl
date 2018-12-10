@@ -29,7 +29,7 @@
 
 Name:		efl
 Version:	1.21.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -232,9 +232,6 @@ sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
 	--disable-static \
 	--disable-cocoa \
 	--with-profile=release \
-%ifarch %{arm} aarch64
-	--disable-neon \
-%endif
 %if ! 0%{?has_luajit}
 	--enable-lua-old \
 %endif
@@ -553,6 +550,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon Dec 10 2018 Dan Horák <dan[at]danny.cz> - 1.21.1-2
+- enable NEON on arm/aarch64, EFL uses runtime CPU detection
+
 * Fri Sep 21 2018 Tom Callaway <spot@fedoraproject.org> - 1.21.1-1
 - update to 1.21.1
 
