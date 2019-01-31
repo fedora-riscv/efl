@@ -29,7 +29,7 @@
 
 Name:		efl
 Version:	1.21.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -550,6 +550,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.21.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Mon Dec 10 2018 Dan Horák <dan[at]danny.cz> - 1.21.1-2
 - enable NEON on arm/aarch64, EFL uses runtime CPU detection
 
