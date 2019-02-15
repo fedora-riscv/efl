@@ -29,7 +29,7 @@
 
 Name:		efl
 Version:	1.21.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -206,6 +206,8 @@ sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
   data/libeo.so.%{version}-gdb.py
 
 %build
+
+export CFLAGS="%{optflags} -DGL_GLEXT_LEGACY"
 # The arm-wide disablement of neon is not right
 # but i'm not sure which targets allow for neon at compile.
 %configure \
@@ -550,6 +552,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Fri Feb 15 2019 Tom Callaway <spot@fedoraproject.org> - 1.21.1-4
+- use -DGL_GLEXT_LEGACY to deal with duplicate typedefs on some arches
+
 * Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.21.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
