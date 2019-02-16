@@ -41,6 +41,8 @@ Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
 Patch2:		efl-1.21.0-luajitfix.patch
 # This printf is safe even if format-security disagrees
 Patch3:		efl-1.21.0-use-pragma-to-ignore-safe-printf.patch
+# Use khrplatform defines
+Patch4:		efl-1.21.1-khrplatform.patch
 
 %ifnarch s390 s390x
 BuildRequires:	libunwind-devel
@@ -199,6 +201,7 @@ Development files for EFL.
 %endif
 %patch2 -p1 -b .luajitfix
 %patch3 -p1 -b .pragma
+%patch4 -p1 -b .khrplatform
 autoreconf -ifv
 
 # This is why hardcoding paths is bad.
@@ -206,8 +209,6 @@ sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
   data/libeo.so.%{version}-gdb.py
 
 %build
-
-export CFLAGS="%{optflags} -DGL_GLEXT_LEGACY"
 # The arm-wide disablement of neon is not right
 # but i'm not sure which targets allow for neon at compile.
 %configure \
@@ -553,7 +554,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 %changelog
 * Fri Feb 15 2019 Tom Callaway <spot@fedoraproject.org> - 1.21.1-4
-- use -DGL_GLEXT_LEGACY to deal with duplicate typedefs on some arches
+- use khrplatform.h defines everywhere, because ptrdiff_t is not signed long int on 32bit arches
 
 * Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.21.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
