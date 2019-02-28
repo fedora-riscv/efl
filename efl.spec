@@ -29,7 +29,7 @@
 
 Name:		efl
 Version:	1.21.1
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -69,8 +69,7 @@ BuildRequires:	scim-devel
 BuildRequires:	ibus-devel
 BuildRequires:	doxygen systemd giflib-devel openjpeg2-devel libdrm-devel
 %if %{use_wayland}
-BuildRequires:	mesa-libwayland-egl-devel libwayland-client-devel >= 1.11.0
-BuildRequires:	libwayland-cursor-devel libwayland-server-devel
+BuildRequires:	wayland-devel >= 1.11.0
 BuildRequires:	wayland-protocols-devel >= 1.7
 %endif
 BuildRequires:	autoconf automake libtool gettext-devel mesa-libGLES-devel
@@ -553,6 +552,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Thu Feb 28 2019 Pete Walter <pwalter@fedoraproject.org> - 1.21.1-5
+- Update wayland deps
+
 * Fri Feb 15 2019 Tom Callaway <spot@fedoraproject.org> - 1.21.1-4
 - use khrplatform.h defines everywhere, because ptrdiff_t is not signed long int on 32bit arches
 
