@@ -28,8 +28,8 @@
 
 
 Name:		efl
-Version:	1.21.1
-Release:	5%{?dist}
+Version:	1.22.2
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -40,9 +40,7 @@ Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
 # If luaL_reg is not defined, define it.
 Patch2:		efl-1.21.0-luajitfix.patch
 # This printf is safe even if format-security disagrees
-Patch3:		efl-1.21.0-use-pragma-to-ignore-safe-printf.patch
-# Use khrplatform defines
-Patch4:		efl-1.21.1-khrplatform.patch
+Patch3:		efl-1.22.2-use-pragma-to-ignore-safe-printf.patch
 
 %ifnarch s390 s390x
 BuildRequires:	libunwind-devel
@@ -200,7 +198,6 @@ Development files for EFL.
 %endif
 %patch2 -p1 -b .luajitfix
 %patch3 -p1 -b .pragma
-%patch4 -p1 -b .khrplatform
 autoreconf -ifv
 
 # This is why hardcoding paths is bad.
@@ -234,6 +231,7 @@ sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
 	--disable-static \
 	--disable-cocoa \
 	--with-profile=release \
+	--enable-install-eo-files \
 %if ! 0%{?has_luajit}
 	--enable-lua-old \
 %endif
@@ -379,7 +377,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_datadir}/ethumb
 %{_datadir}/ethumb_client
 # evas
-%{_bindir}/evas_*
+# %%{_bindir}/evas_*
 %{_libdir}/evas/
 %{_libdir}/libevas.so.*
 %{_datadir}/evas/
@@ -453,7 +451,6 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/efreet-mime.pc
 %{_libdir}/pkgconfig/efreet-trash.pc
 # eina-devel
-%{_bindir}/eina-bench-cmp
 %{_includedir}/eina-1/
 %{_includedir}/eina-cxx-1/
 %{_libdir}/cmake/Eina*/
@@ -552,6 +549,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Thu May 2 2019 Tom Callaway <spot@fedoraproject.org> - 1.22.2-1
+- update to 1.22.2
+
 * Thu Feb 28 2019 Pete Walter <pwalter@fedoraproject.org> - 1.21.1-5
 - Update wayland deps
 
