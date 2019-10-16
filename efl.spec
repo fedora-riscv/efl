@@ -218,7 +218,7 @@ Development files for EFL.
  -Ddrm=true \
  -Dopengl=full \
  -Dinstall-eo-files=true \
-%if %{has_luajit}
+%if 0%{?has_luajit}
  -Dbindings=luajit,cxx \
  -Dlua-interpreter=luajit \
 %else
