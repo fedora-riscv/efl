@@ -28,7 +28,7 @@
 
 
 Name:		efl
-Version:	1.22.4
+Version:	1.23.1
 Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
@@ -38,9 +38,7 @@ Source0:	http://download.enlightenment.org/rel/libs/efl/efl-%{version}.tar.xz
 # but this works for now.
 Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
 # If luaL_reg is not defined, define it.
-Patch2:		efl-1.21.0-luajitfix.patch
-# This printf is safe even if format-security disagrees
-Patch3:		efl-1.22.2-use-pragma-to-ignore-safe-printf.patch
+Patch2:		efl-1.23.1-luajitfix.patch
 
 %ifnarch s390 s390x
 BuildRequires:	libunwind-devel
@@ -70,7 +68,7 @@ BuildRequires:	doxygen systemd giflib-devel openjpeg2-devel libdrm-devel
 BuildRequires:	wayland-devel >= 1.11.0
 BuildRequires:	wayland-protocols-devel >= 1.7
 %endif
-BuildRequires:	autoconf automake libtool gettext-devel mesa-libGLES-devel
+BuildRequires:	ninja-build meson gettext-devel mesa-libGLES-devel
 BuildRequires:	mesa-libgbm-devel libinput-devel
 %if 0%{?has_luajit}
 BuildRequires:	luajit-devel
@@ -197,55 +195,40 @@ Development files for EFL.
 %patch1 -p1 -b .old
 %endif
 %patch2 -p1 -b .luajitfix
-%patch3 -p1 -b .pragma
-autoreconf -ifv
 
 # This is why hardcoding paths is bad.
-sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
-  data/libeo.so.%{version}-gdb.py
+# sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
+#  data/libeo.so.%{version}-gdb.py
 
 %build
-# The arm-wide disablement of neon is not right
-# but i'm not sure which targets allow for neon at compile.
-%configure \
-	--enable-xinput22 \
-	--enable-systemd \
-	--enable-image-loader-webp \
-	--enable-harfbuzz \
-	--enable-sdl \
-	--enable-ibus \
+%{meson} \
+ -Dxinput22=true \
+ -Dsystemd=true \
+ -Devas-loaders-disabler=json \
+ -Dharfbuzz=true \
+ -Dsdl=true \
 %if %{with_scim}
-	--enable-scim \
-%else
-	--disable-scim \
-	--enable-i-really-know-what-i-am-doing-and-that-this-will-probably-break-things-and-i-will-fix-them-myself-and-send-patches-abb \
+ -Decore-imf-loaders-disabler= \
 %endif
-	--enable-fb \
+ -Dfb=true \
 %if %{use_wayland}
-	--enable-wayland \
+ -Dwl=true \
 %endif
-	--enable-elput \
-	--enable-drm \
-	--enable-drm-hw-accel \
-	--with-opengl=full \
-	--disable-static \
-	--disable-cocoa \
-	--with-profile=release \
-	--enable-install-eo-files \
-%if ! 0%{?has_luajit}
-	--enable-lua-old \
-%endif
-	--with-systemdunitdir=%{_userunitdir}
-make %{?_smp_mflags} V=1
-# This makes doxygen segfault. :/
-# make %{?_smp_mflags} doc V=1
+ -Ddrm=true \
+ -Dopengl=full \
+ -Dinstall-eo-files=true \
+ -Dsystemdunitdir=%{_userunitdir}
+%{meson_build}
 
 %install
-make install DESTDIR=%{buildroot}
+%{meson_install}
 
 # There is probably a better place to fix this, but I couldn't untangle it.
 sed -i 's|ecore_sdl|ecore-sdl|g' %{buildroot}%{_libdir}/pkgconfig/elementary.pc
 sed -i 's|ecore_sdl|ecore-sdl|g' %{buildroot}%{_libdir}/pkgconfig/elementary-cxx.pc
+
+# yay pathing
+mv %{buildroot}%{_datadir}/gdb/auto-load/usr/lib %{buildroot}%{_datadir}/gdb/auto-load%{_libdir}
 
 # fix perms
 chmod -x src/bin/edje/edje_cc_out.c
@@ -325,6 +308,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 # elementary
 %{_bindir}/elementary_codegen
 %{_bindir}/elementary_config
+%{_bindir}/elementary_perf
 %{_bindir}/elementary_quicklaunch
 %{_bindir}/elementary_run
 %{_bindir}/elementary_test
@@ -351,6 +335,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libembryo.so.1*
 %{_libdir}/libemile.so.*
 # emotion
+%{_bindir}/emotion_test*
 %{_libdir}/emotion/
 %{_libdir}/libemotion.so.1*
 # eo
@@ -465,10 +450,11 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/cmake/Eio/
 # eldbus-devel
 %{_includedir}/eldbus-1/
-%{_includedir}/eldbus_cxx-1/
+%{_includedir}/eldbus-cxx-1/
 %{_libdir}/cmake/Eldbus/
 %{_libdir}/libeldbus.so
 %{_libdir}/pkgconfig/eldbus.pc
+%{_libdir}/pkgconfig/eldbus-cxx.pc
 # elementary-devel
 %{_includedir}/elementary-1/
 %{_includedir}/elementary-cxx-1/
@@ -539,6 +525,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libethumb.so
 %{_libdir}/libethumb_client.so
 %{_libdir}/pkgconfig/ethumb.pc
+%{_libdir}/pkgconfig/ethumb-client.pc
 %{_libdir}/pkgconfig/ethumb_client.pc
 # evas-devel
 %{_includedir}/evas-1/
@@ -549,6 +536,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Wed Oct 16 2019 Tom Callaway <spot@fedoraproject.org> - 1.23.1-1
+- update to 1.23.1
+
 * Wed Sep  4 2019 Tom Callaway <spot@fedoraproject.org> - 1.22.4-1
 - update to 1.22.4
 
