@@ -235,7 +235,9 @@ sed -i 's|ecore_sdl|ecore-sdl|g' %{buildroot}%{_libdir}/pkgconfig/elementary.pc
 sed -i 's|ecore_sdl|ecore-sdl|g' %{buildroot}%{_libdir}/pkgconfig/elementary-cxx.pc
 
 # yay pathing
+%if %{__isa_bits} == 64
 mv %{buildroot}%{_datadir}/gdb/auto-load/usr/lib %{buildroot}%{_datadir}/gdb/auto-load%{_libdir}
+%endif
 
 # fix perms
 chmod -x src/bin/edje/edje_cc_out.c
