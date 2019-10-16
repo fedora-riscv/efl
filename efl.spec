@@ -1,11 +1,8 @@
 %global _hardened_build 1
-%global has_luajit 0
+%global has_luajit 1
 
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %global has_luajit 0
-%else
-%ifarch %{arm} %{ix86} x86_64
-%global has_luajit 1
 %endif
 # PANIC: unprotected error in call to Lua API (bad light userdata pointer)
 # Disabling luajit for aarch64
@@ -223,7 +220,7 @@ Development files for EFL.
  -Dlua-interpreter=luajit \
 %else
  -Dbindings=cxx \
- -Dlua-interpreter= \
+ -Dlua-interpreter=lua \
 %endif
  -Dsystemdunitdir=%{_userunitdir}
 %{meson_build}
