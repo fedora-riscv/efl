@@ -1,4 +1,5 @@
 %global _hardened_build 1
+%global has_luajit 0
 
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %global has_luajit 0
