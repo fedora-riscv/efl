@@ -217,6 +217,13 @@ Development files for EFL.
  -Ddrm=true \
  -Dopengl=full \
  -Dinstall-eo-files=true \
+%if %{has_luajit}
+ -Dbindings=luajit,cxx \
+ -Dlua-interpreter=luajit \
+%else
+ -Dbindings=cxx \
+ -Dlua-interpreter= \
+%endif
  -Dsystemdunitdir=%{_userunitdir}
 %{meson_build}
 
