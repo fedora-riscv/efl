@@ -52,9 +52,9 @@ BuildRequires:	libXau-devel libXcomposite-devel libXdamage-devel libXdmcp-devel
 BuildRequires:	libXext-devel libXfixes-devel libXinerama-devel libXrandr-devel
 BuildRequires:	libXrender-devel libXScrnSaver-devel libXtst-devel libXcursor-devel
 BuildRequires:	libXp-devel libXi-devel mesa-libGL-devel mesa-libEGL-devel
-BuildRequires:	libblkid-devel libmount-devel systemd-devel harfbuzz-devel 
+BuildRequires:	libblkid-devel libmount-devel systemd-devel harfbuzz-devel
 BuildRequires:	libwebp-devel tslib-devel SDL2-devel SDL-devel c-ares-devel
-BuildRequires:	libxkbcommon-devel uuid-devel libxkbcommon-x11-devel
+BuildRequires:	libxkbcommon-devel uuid-devel libxkbcommon-x11-devel avahi-devel
 BuildRequires:	pkgconfig(poppler-cpp) >= 0.12
 BuildRequires:	pkgconfig(libspectre) pkgconfig(libraw)
 BuildRequires:	pkgconfig(librsvg-2.0) >= 2.14.0 
