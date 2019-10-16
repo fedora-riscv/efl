@@ -1,0 +1,16 @@
+diff -up efl-1.23.1/meson.build.noneon efl-1.23.1/meson.build
+--- efl-1.23.1/meson.build.noneon	2019-10-16 17:24:32.291167994 -0400
++++ efl-1.23.1/meson.build	2019-10-16 17:24:51.001778207 -0400
+@@ -169,12 +169,6 @@ if get_option('native-arch-optimization'
+     config_h.set10('BUILD_SSE3', true)
+     native_arch_opt_c_args = [ '-msse3' ]
+     message('x86 build - MMX + SSE3 enabled')
+-  elif host_machine.cpu_family() == 'arm'
+-    cpu_neon = true
+-    config_h.set10('BUILD_NEON', true)
+-    add_global_arguments('-mfpu=neon', language: 'c')
+-    add_global_arguments('-ftree-vectorize', language: 'c')
+-    message('ARM build - NEON enabled')
+   elif host_machine.cpu_family() == 'aarch64'
+     cpu_neon = true
+     cpu_neon_intrinsics = true

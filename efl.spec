@@ -6,9 +6,9 @@
 %endif
 # PANIC: unprotected error in call to Lua API (bad light userdata pointer)
 # Disabling luajit for aarch64
-%ifarch aarch64
-%global has_luajit 0
-%endif
+# %%ifarch aarch64
+# %%global has_luajit 0
+# %%endif
 
 # Look, you probably don't want this. scim is so 2012. ibus is the new hotness.
 # Enabling this means you'll almost certainly need to pass ECORE_IMF_MODULE=xim 
@@ -36,6 +36,8 @@ Source0:	http://download.enlightenment.org/rel/libs/efl/efl-%{version}.tar.xz
 Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
 # If luaL_reg is not defined, define it.
 Patch2:		efl-1.23.1-luajitfix.patch
+# Our armv7 builds do not use neon
+Patch3:		efl-1.23.1-no-neon.patch
 
 %ifnarch s390 s390x
 BuildRequires:	libunwind-devel
@@ -192,6 +194,7 @@ Development files for EFL.
 %patch1 -p1 -b .old
 %endif
 %patch2 -p1 -b .luajitfix
+%patch3 -p1 -b .noneon
 
 # This is why hardcoding paths is bad.
 # sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
