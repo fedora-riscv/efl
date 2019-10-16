@@ -9,7 +9,6 @@
 %ifarch aarch64
 %global has_luajit 0
 %endif
-%endif
 
 # Look, you probably don't want this. scim is so 2012. ibus is the new hotness.
 # Enabling this means you'll almost certainly need to pass ECORE_IMF_MODULE=xim 
