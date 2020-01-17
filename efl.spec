@@ -26,7 +26,7 @@
 
 Name:		efl
 Version:	1.23.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -545,6 +545,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Fri Jan 17 2020 Marek Kasik <mkasik@redhat.com> - 1.23.3-2
+- Rebuild for poppler-0.84.0
+
 * Mon Dec  2 2019 Tom Callaway <spot@fedoraproject.org> - 1.23.3-1
 - update to 1.23.3
 
