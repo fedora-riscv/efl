@@ -26,7 +26,7 @@
 
 Name:		efl
 Version:	1.23.3
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -549,6 +549,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Tue May 05 2020 Sereinity <sereinity@sereinity.fr> - 1.23.3-5
+- rebuilt
+
 * Fri Jan 31 2020 Tom Callaway <spot@fedoraproject.org> - 1.23.3-4
 - fix FTBFS
 
