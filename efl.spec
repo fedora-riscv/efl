@@ -26,7 +26,7 @@
 
 Name:		efl
 Version:	1.23.3
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -549,6 +549,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/evas*.pc
 
 %changelog
+* Mon May 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.23.3-6
+- Rebuild for new LibRaw
+
 * Tue May 05 2020 Sereinity <sereinity@sereinity.fr> - 1.23.3-5
 - rebuilt
 
