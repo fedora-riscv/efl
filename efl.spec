@@ -25,8 +25,8 @@
 
 
 Name:		efl
-Version:	1.23.3
-Release:	6%{?dist}
+Version:	1.24.1
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -38,9 +38,6 @@ Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
 Patch2:		efl-1.23.1-luajitfix.patch
 # Our armv7 builds do not use neon
 Patch3:		efl-1.23.1-no-neon.patch
-# gcc10 -fno-common is now default
-# https://phab.enlightenment.org/D11259
-Patch4:		efl-1.23.3-gcc10.patch
 
 %ifnarch s390 s390x
 BuildRequires:	libunwind-devel
@@ -57,6 +54,7 @@ BuildRequires:	libXp-devel libXi-devel mesa-libGL-devel mesa-libEGL-devel
 BuildRequires:	libblkid-devel libmount-devel systemd-devel harfbuzz-devel
 BuildRequires:	libwebp-devel tslib-devel SDL2-devel SDL-devel c-ares-devel
 BuildRequires:	libxkbcommon-devel uuid-devel libxkbcommon-x11-devel avahi-devel
+BuildRequires:	rlottie-devel
 BuildRequires:	pkgconfig(poppler-cpp) >= 0.12
 BuildRequires:	pkgconfig(libspectre) pkgconfig(libraw)
 BuildRequires:	pkgconfig(librsvg-2.0) >= 2.14.0 
@@ -106,7 +104,7 @@ Provides:	eldbus%{?_isa} = %{version}-%{release}
 Provides:	elementary = %{version}-%{release}
 Provides:	elementary%{?_isa} = %{version}-%{release}
 Obsoletes:	elementary <= 1.17.1
-Provides:	elocation%{?_isa} = %{version}-%{release}
+# Provides:	elocation%%{?_isa} = %%{version}-%%{release}
 Provides:	elua%{?_isa} = %{version}-%{release}
 Provides:	embryo = %{version}-%{release}
 Provides:	embryo%{?_isa} = %{version}-%{release}
@@ -168,7 +166,7 @@ Provides:	eldbus-devel%{?_isa} = %{version}-%{release}
 Provides:	elementary-devel = %{version}-%{release}
 Provides:	elementary-devel%{?_isa} = %{version}-%{release}
 Obsoletes:	elementary-devel <= 1.17.1
-Provides:	elocation-devel%{?_isa} = %{version}-%{release}
+# Provides:	elocation-devel%%{?_isa} = %%{version}-%%{release}
 Provides:	embryo-devel = %{version}-%{release}
 Provides:	embryo-devel%{?_isa} = %{version}-%{release}
 Obsoletes:	embryo-devel <= 1.7.10
@@ -198,7 +196,6 @@ Development files for EFL.
 %endif
 %patch2 -p1 -b .luajitfix
 %patch3 -p1 -b .noneon
-%patch4 -p1 -b .gcc10
 
 # This is why hardcoding paths is bad.
 # sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
@@ -211,8 +208,13 @@ Development files for EFL.
  -Devas-loaders-disabler=json \
  -Dharfbuzz=true \
  -Dsdl=true \
+ -Dbuffer=true \
+ -Davahi=true \
 %if %{with_scim}
  -Decore-imf-loaders-disabler= \
+%else
+ -Decore-imf-loaders-disabler=scim \
+ -Dglib=true \
 %endif
  -Dfb=true \
 %if %{use_wayland}
@@ -228,6 +230,7 @@ Development files for EFL.
  -Dbindings=cxx \
  -Dlua-interpreter=lua \
 %endif
+ -Dphysics=true \
  -Dsystemdunitdir=%{_userunitdir}
 %{meson_build}
 
@@ -265,13 +268,14 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %license COPYING licenses/COPYING.BSD licenses/COPYING.GPL licenses/COPYING.LGPL licenses/COPYING.SMALL
 %doc AUTHORS COMPLIANCE NEWS README
 %{_libdir}/libefl.so.1*
-%{_libdir}/libefl_wl.so.1*
+%{_libdir}/libefl_canvas_wl.so.1*
 %{_bindir}/efl_debug
 %{_bindir}/efl_debugd
 %{_datadir}/icons/Enlightenment-X/
 # ecore
 %{_bindir}/ecore_evas_convert
 %{_libdir}/ecore/
+%{_libdir}/ecore_buffer/
 %{_libdir}/ecore_con/
 %{_libdir}/ecore_evas/
 %{_libdir}/ecore_imf/
@@ -332,7 +336,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_datadir}/elementary/
 %{_datadir}/icons/hicolor/*/apps/elementary.png
 # elocation
-%{_libdir}/libelocation.so.1*
+# %%{_libdir}/libelocation.so.1*
 # elput
 %{_libdir}/libelput.so.1*
 # elua
@@ -379,25 +383,30 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/evas/
 %{_libdir}/libevas.so.*
 %{_datadir}/evas/
+# exactness
+%{_bindir}/exactness*
+%{_libdir}/libexactness*.so.*
+%{_datadir}/exactness/
 
 %files devel
 %{_includedir}/efl-1/
 %{_includedir}/efl-cxx-1/
-%{_includedir}/efl-wl-1/
-%{_bindir}/efl_wl_test*
+%{_includedir}/efl-canvas-wl-1/
+%{_bindir}/efl_canvas_wl_test*
 %{_libdir}/cmake/Efl/
 %{_libdir}/libefl.so
-%{_libdir}/libefl_wl.so
+%{_libdir}/libefl_canvas_wl.so
 %{_libdir}/pkgconfig/efl-core.pc
 %{_libdir}/pkgconfig/efl-cxx.pc
 %{_libdir}/pkgconfig/efl-net.pc
 %{_libdir}/pkgconfig/efl-ui.pc
-%{_libdir}/pkgconfig/efl-wl.pc
+%{_libdir}/pkgconfig/efl-canvas-wl.pc
 %{_libdir}/pkgconfig/efl.pc
 # ecore-devel
 %{_includedir}/ecore-1/
 %{_includedir}/ecore-audio-1/
 %{_includedir}/ecore-avahi-1/
+%{_includedir}/ecore-buffer-1/
 %{_includedir}/ecore-con-1/
 %{_includedir}/ecore-cxx-1/
 %{_includedir}/ecore-drm2-1/
@@ -411,6 +420,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_includedir}/ecore-ipc-1/
 %{_includedir}/ecore-sdl-1/
 %if %{use_wayland}
+
 %{_includedir}/ecore-wl2-1/
 %endif
 %{_includedir}/ecore-x-1/
@@ -476,9 +486,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/elementary.pc
 %{_libdir}/pkgconfig/elementary-cxx.pc
 # elocation-devel
-%{_includedir}/elocation-1/
-%{_libdir}/libelocation.so
-%{_libdir}/pkgconfig/elocation.pc
+# %%{_includedir}/elocation-1/
+# %%{_libdir}/libelocation.so
+# %%{_libdir}/pkgconfig/elocation.pc
 # elput-devel
 %{_includedir}/elput-1/
 %{_libdir}/libelput.so
@@ -547,8 +557,13 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/cmake/Evas/
 %{_libdir}/cmake/EvasCxx/
 %{_libdir}/pkgconfig/evas*.pc
+# exactness
+%{_libdir}/libexactness*.so
 
 %changelog
+* Mon May 11 2020 Tom Callaway <spot@fedoraproject.org> - 1.24.1-1
+- update to 1.24.1
+
 * Mon May 11 2020 Gwyn Ciesla <gwync@protonmail.com> - 1.23.3-6
 - Rebuild for new LibRaw
 
