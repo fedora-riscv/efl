@@ -25,7 +25,7 @@
 
 
 Name:		efl
-Version:	1.24.2
+Version:	1.24.3
 Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
@@ -33,9 +33,9 @@ URL:		http://enlightenment.org/
 Source0:	http://download.enlightenment.org/rel/libs/efl/efl-%{version}.tar.xz
 # There is probably a way to conditionalize this in the code that could go upstream
 # but this works for now.
-Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
+#Patch1:		efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
 # If luaL_reg is not defined, define it.
-Patch2:		efl-1.23.1-luajitfix.patch
+#Patch2:		efl-1.23.1-luajitfix.patch
 # Our armv7 builds do not use neon
 Patch3:		efl-1.23.1-no-neon.patch
 
@@ -192,9 +192,9 @@ Development files for EFL.
 %prep
 %setup -q
 %if 0%{?rhel} && 0%{?rhel} <= 7
-%patch1 -p1 -b .old
+#%patch1 -p1 -b .old
 %endif
-%patch2 -p1 -b .luajitfix
+#%patch2 -p1 -b .luajitfix
 %patch3 -p1 -b .noneon
 
 # This is why hardcoding paths is bad.
@@ -221,7 +221,6 @@ Development files for EFL.
  -Dwl=true \
 %endif
  -Ddrm=true \
- -Dopengl=full \
  -Dinstall-eo-files=true \
 %if 0%{?has_luajit}
  -Dbindings=luajit,cxx \
@@ -561,6 +560,13 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Mon Jul 20 2020 Ding-Yi Chen <dchen@redhat.com> - 1.24.3-1
+- update to 1.24.3
+- Remove meson flag -Dopengl=full
+- Remove Patch1 efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
+- Remove Patch2 efl-1.23.1-luajitfix.patch 
+  as luaL_reg is no longer required
+
 * Tue May 26 2020 Tom Callaway <spot@fedoraproject.org> - 1.24.2-1
 - update to 1.24.2
 
