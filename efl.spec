@@ -26,7 +26,7 @@
 
 Name:		efl
 Version:	1.24.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -560,6 +560,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jul 20 2020 Ding-Yi Chen <dchen@redhat.com> - 1.24.3-1
 - update to 1.24.3
 - Remove meson flag -Dopengl=full
