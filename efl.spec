@@ -26,7 +26,7 @@
 
 Name:		efl
 Version:	1.24.3
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -38,6 +38,9 @@ Source0:	http://download.enlightenment.org/rel/libs/efl/efl-%{version}.tar.xz
 #Patch2:		efl-1.23.1-luajitfix.patch
 # Our armv7 builds do not use neon
 Patch3:		efl-1.23.1-no-neon.patch
+# This is hacky, but it gets us building in rawhide again.
+# Upstream efl probably needs to rework how they use check in their C tests
+Patch4:		efl-1.24.3-check-fix.patch
 
 %ifnarch s390 s390x
 BuildRequires:	libunwind-devel
@@ -196,6 +199,7 @@ Development files for EFL.
 %endif
 #%patch2 -p1 -b .luajitfix
 %patch3 -p1 -b .noneon
+%patch4 -p1 -b .checkfix
 
 # This is why hardcoding paths is bad.
 # sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
@@ -560,6 +564,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Wed Aug  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.24.3-4
+- fix build against check in rawhide
+
 * Sat Aug 01 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.24.3-3
 - Second attempt - Rebuilt for
   https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
