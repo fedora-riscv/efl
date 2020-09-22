@@ -25,8 +25,8 @@
 
 
 Name:		efl
-Version:	1.24.3
-Release:	4%{?dist}
+Version:	1.25.0
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -37,10 +37,10 @@ Source0:	http://download.enlightenment.org/rel/libs/efl/efl-%{version}.tar.xz
 # If luaL_reg is not defined, define it.
 #Patch2:		efl-1.23.1-luajitfix.patch
 # Our armv7 builds do not use neon
-Patch3:		efl-1.23.1-no-neon.patch
+Patch3:		efl-1.25.0-no-neon.patch
 # This is hacky, but it gets us building in rawhide again.
 # Upstream efl probably needs to rework how they use check in their C tests
-Patch4:		efl-1.24.3-check-fix.patch
+Patch4:		efl-1.25.0-check-fix.patch
 
 %ifnarch s390 s390x
 BuildRequires:	libunwind-devel
@@ -62,6 +62,7 @@ BuildRequires:	pkgconfig(poppler-cpp) >= 0.12
 BuildRequires:	pkgconfig(libspectre) pkgconfig(libraw)
 BuildRequires:	pkgconfig(librsvg-2.0) >= 2.14.0 
 BuildRequires:	pkgconfig(cairo) >= 1.0.0
+BuildRequires:	pkgconfig(libavif)
 %if %{with_scim}
 BuildRequires:	scim-devel
 %endif
@@ -227,8 +228,9 @@ Development files for EFL.
  -Ddrm=true \
  -Dinstall-eo-files=true \
 %if 0%{?has_luajit}
- -Dbindings=luajit,cxx \
+ -Dbindings=lua,cxx \
  -Dlua-interpreter=luajit \
+ -Delua=true \
 %else
  -Dbindings=cxx \
  -Dlua-interpreter=lua \
@@ -564,6 +566,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Tue Sep 22 2020 Tom Callaway <spot@fedoraproject.org> - 1.25.0-1
+- update to 1.25.0
+
 * Wed Aug  5 2020 Tom Callaway <spot@fedoraproject.org> - 1.24.3-4
 - fix build against check in rawhide
 
