@@ -26,7 +26,7 @@
 
 Name:		efl
 Version:	1.25.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -53,7 +53,7 @@ BuildRequires:	fribidi-devel pulseaudio-libs-devel libsndfile-devel libX11-devel
 BuildRequires:	libXau-devel libXcomposite-devel libXdamage-devel libXdmcp-devel
 BuildRequires:	libXext-devel libXfixes-devel libXinerama-devel libXrandr-devel
 BuildRequires:	libXrender-devel libXScrnSaver-devel libXtst-devel libXcursor-devel
-BuildRequires:	libXp-devel libXi-devel mesa-libGL-devel mesa-libEGL-devel
+BuildRequires:	libXi-devel mesa-libGL-devel mesa-libEGL-devel
 BuildRequires:	libblkid-devel libmount-devel systemd-devel harfbuzz-devel
 BuildRequires:	libwebp-devel tslib-devel SDL2-devel SDL-devel c-ares-devel
 BuildRequires:	libxkbcommon-devel uuid-devel libxkbcommon-x11-devel avahi-devel
@@ -566,6 +566,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Wed Sep 30 2020 Adam Jackson <ajax@redhat.com> - 1.25.0-2
+- Drop unused BuildRequires: libXp-devel
+
 * Tue Sep 22 2020 Tom Callaway <spot@fedoraproject.org> - 1.25.0-1
 - update to 1.25.0
 
