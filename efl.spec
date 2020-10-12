@@ -25,8 +25,8 @@
 
 
 Name:		efl
-Version:	1.25.0
-Release:	2%{?dist}
+Version:	1.25.1
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -566,6 +566,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Mon Oct 12 2020 Tom Callaway <spot@fedoraproject.org> - 1.25.1-1
+- update to 1.25.1
+
 * Wed Sep 30 2020 Adam Jackson <ajax@redhat.com> - 1.25.0-2
 - Drop unused BuildRequires: libXp-devel
 
