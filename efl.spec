@@ -26,7 +26,7 @@
 
 Name:		efl
 Version:	1.25.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
