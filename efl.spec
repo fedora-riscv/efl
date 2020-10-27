@@ -62,7 +62,10 @@ BuildRequires:	pkgconfig(poppler-cpp) >= 0.12
 BuildRequires:	pkgconfig(libspectre) pkgconfig(libraw)
 BuildRequires:	pkgconfig(librsvg-2.0) >= 2.14.0 
 BuildRequires:	pkgconfig(cairo) >= 1.0.0
-BuildRequires:	pkgconfig(libavif)
+# Disable libavif support for now
+# https://phab.enlightenment.org/T8844
+# efl 1.25.1 or git master fails to compile with libavif v0.8.2
+#BuildRequires:	pkgconfig(libavif)
 %if %{with_scim}
 BuildRequires:	scim-devel
 %endif
@@ -207,10 +210,11 @@ Development files for EFL.
 #  data/libeo.so.%{version}-gdb.py
 
 %build
+# Disable libavif support for now
 %{meson} \
  -Dxinput22=true \
  -Dsystemd=true \
- -Devas-loaders-disabler=json \
+ -Devas-loaders-disabler=json,avif \
  -Dharfbuzz=true \
  -Dsdl=true \
  -Dbuffer=true \
@@ -566,6 +570,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Tue Oct 27 2020 Mamoru TASAKA <mtasaka@fedoraprojet.org> - 1.25.1-3
+- Disable libavif support for now (bug 1891658)
+
 * Fri Oct 23 10:33:37 CEST 2020 Nils Philippsen <nils@tiptoe.de> - 1.25.1-2
 - rebuild for new libavif
 
