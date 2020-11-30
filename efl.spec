@@ -1,6 +1,8 @@
 %global _hardened_build 1
 %global has_luajit 1
 
+%bcond_with avif
+
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %global has_luajit 0
 %endif
@@ -62,7 +64,9 @@ BuildRequires:	pkgconfig(poppler-cpp) >= 0.12
 BuildRequires:	pkgconfig(libspectre) pkgconfig(libraw)
 BuildRequires:	pkgconfig(librsvg-2.0) >= 2.14.0 
 BuildRequires:	pkgconfig(cairo) >= 1.0.0
+%if %{with avif}
 BuildRequires:	pkgconfig(libavif)
+%endif
 %if %{with_scim}
 BuildRequires:	scim-devel
 %endif
@@ -566,6 +570,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Mon Nov 30 2020 Andreas Schneider <asn@redhat.com> - 1.25.1-3
+- Disable avif support
+
 * Fri Oct 23 10:33:37 CEST 2020 Nils Philippsen <nils@tiptoe.de> - 1.25.1-2
 - rebuild for new libavif
 
