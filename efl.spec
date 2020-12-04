@@ -25,10 +25,14 @@
 %global use_wayland 0
 %endif
 
+# Disable libavif support for now
+# https://phab.enlightenment.org/T8844
+# efl 1.25.1 or git master fails to compile with libavif v0.8.2
+%bcond_with avif
 
 Name:		efl
 Version:	1.25.1
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -62,7 +66,7 @@ BuildRequires:	libxkbcommon-devel uuid-devel libxkbcommon-x11-devel avahi-devel
 BuildRequires:	rlottie-devel
 BuildRequires:	pkgconfig(poppler-cpp) >= 0.12
 BuildRequires:	pkgconfig(libspectre) pkgconfig(libraw)
-BuildRequires:	pkgconfig(librsvg-2.0) >= 2.14.0 
+BuildRequires:	pkgconfig(librsvg-2.0) >= 2.14.0
 BuildRequires:	pkgconfig(cairo) >= 1.0.0
 %if %{with avif}
 BuildRequires:	pkgconfig(libavif)
@@ -214,7 +218,11 @@ Development files for EFL.
 %{meson} \
  -Dxinput22=true \
  -Dsystemd=true \
+%if %{with avif}
  -Devas-loaders-disabler=json \
+%else
+ -Devas-loaders-disabler=json,avif \
+%endif
  -Dharfbuzz=true \
  -Dsdl=true \
  -Dbuffer=true \
@@ -570,8 +578,14 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
-* Mon Nov 30 2020 Andreas Schneider <asn@redhat.com> - 1.25.1-3
+* Fri Dec  4 2020 Tom Callaway <spot@fedoraproject.org> - 1.25.1-4
+- merge libavif logic to one spec
+
+* Mon Nov 30 2020 Andreas Schneider <asn@redhat.com> - 1.25.1-3.1
 - Disable avif support
+
+* Tue Oct 27 2020 Mamoru TASAKA <mtasaka@fedoraprojet.org> - 1.25.1-3
+- Disable libavif support for now (bug 1891658)
 
 * Fri Oct 23 10:33:37 CEST 2020 Nils Philippsen <nils@tiptoe.de> - 1.25.1-2
 - rebuild for new libavif
