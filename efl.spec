@@ -30,7 +30,7 @@
 
 Name:		efl
 Version:	1.25.1
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -576,6 +576,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.25.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
 * Fri Dec  4 2020 Tom Callaway <spot@fedoraproject.org> - 1.25.1-4
 - merge libavif logic to one spec
 
