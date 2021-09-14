@@ -30,7 +30,7 @@
 
 Name:		efl
 Version:	1.25.1
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -576,6 +576,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Tue Sep 14 2021 Sahana Prasad <sahana@redhat.com> - 1.25.1-8
+- Rebuilt with OpenSSL 3.0.0
+
 * Wed Jul 21 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.25.1-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
