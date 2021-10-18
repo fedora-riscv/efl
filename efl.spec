@@ -11,7 +11,7 @@
 # %%endif
 
 # Look, you probably don't want this. scim is so 2012. ibus is the new hotness.
-# Enabling this means you'll almost certainly need to pass ECORE_IMF_MODULE=xim 
+# Enabling this means you'll almost certainly need to pass ECORE_IMF_MODULE=xim
 # to get anything to work. (*cough*terminology*cough*)
 %global with_scim 0
 
@@ -26,7 +26,7 @@
 
 Name:		efl
 Version:	1.25.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -41,6 +41,11 @@ Patch3:		efl-1.25.0-no-neon.patch
 # This is hacky, but it gets us building in rawhide again.
 # Upstream efl probably needs to rework how they use check in their C tests
 Patch4:		efl-1.25.0-check-fix.patch
+
+# s390x does not have libraw yet
+%if 0%{?el8}
+ExcludeArch: s390x
+%endif
 
 %ifnarch s390 s390x
 BuildRequires:	libunwind-devel
@@ -60,7 +65,7 @@ BuildRequires:	libxkbcommon-devel uuid-devel libxkbcommon-x11-devel avahi-devel
 BuildRequires:	rlottie-devel
 BuildRequires:	pkgconfig(poppler-cpp) >= 0.12
 BuildRequires:	pkgconfig(libspectre) pkgconfig(libraw)
-BuildRequires:	pkgconfig(librsvg-2.0) >= 2.14.0 
+BuildRequires:	pkgconfig(librsvg-2.0) >= 2.14.0
 BuildRequires:	pkgconfig(cairo) >= 1.0.0
 # Disable libavif support for now
 # https://phab.enlightenment.org/T8844
@@ -570,6 +575,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Mon Oct 18 2021 Ding-Yi Chen <dchen@redhat.com> - 1.25.1-4
+- ExcludeArch s390x for EL8, as there are not LibRaw
+
 * Tue Oct 27 2020 Mamoru TASAKA <mtasaka@fedoraprojet.org> - 1.25.1-3
 - Disable libavif support for now (bug 1891658)
 
@@ -599,7 +607,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 - update to 1.24.3
 - Remove meson flag -Dopengl=full
 - Remove Patch1 efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
-- Remove Patch2 efl-1.23.1-luajitfix.patch 
+- Remove Patch2 efl-1.23.1-luajitfix.patch
   as luaL_reg is no longer required
 
 * Tue May 26 2020 Tom Callaway <spot@fedoraproject.org> - 1.24.2-1
@@ -766,7 +774,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 * Wed Aug 31 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.0-4
 - explicitly disable cocoa. we are not osx. sloppy configure gets it wrong.
-- fix typo in elementary pc files 
+- fix typo in elementary pc files
 
 * Wed Aug 31 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.0-3
 - properly provide/obsolete evas-generic-loaders
