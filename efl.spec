@@ -23,10 +23,14 @@
 %global use_wayland 0
 %endif
 
+# Disable libavif support for now
+# https://phab.enlightenment.org/T8844
+# efl 1.25.1 or git master fails to compile with libavif v0.8.2
+%bcond_with avif
 
 Name:		efl
 Version:	1.25.1
-Release:	4%{?dist}
+Release:	9%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -67,10 +71,9 @@ BuildRequires:	pkgconfig(poppler-cpp) >= 0.12
 BuildRequires:	pkgconfig(libspectre) pkgconfig(libraw)
 BuildRequires:	pkgconfig(librsvg-2.0) >= 2.14.0
 BuildRequires:	pkgconfig(cairo) >= 1.0.0
-# Disable libavif support for now
-# https://phab.enlightenment.org/T8844
-# efl 1.25.1 or git master fails to compile with libavif v0.8.2
-#BuildRequires:	pkgconfig(libavif)
+%if %{with avif}
+BuildRequires:	pkgconfig(libavif)
+%endif
 %if %{with_scim}
 BuildRequires:	scim-devel
 %endif
@@ -215,11 +218,14 @@ Development files for EFL.
 #  data/libeo.so.%{version}-gdb.py
 
 %build
-# Disable libavif support for now
 %{meson} \
  -Dxinput22=true \
  -Dsystemd=true \
+%if %{with avif}
+ -Devas-loaders-disabler=json \
+%else
  -Devas-loaders-disabler=json,avif \
+%endif
  -Dharfbuzz=true \
  -Dsdl=true \
  -Dbuffer=true \
@@ -575,8 +581,26 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
-* Mon Oct 18 2021 Ding-Yi Chen <dchen@redhat.com> - 1.25.1-4
+* Tue Oct 19 2021 Ding-Yi Chen <dchen@redhat.com> - 1.25.1-9
 - ExcludeArch s390x for EL8, as there are not LibRaw
+
+* Tue Sep 14 2021 Sahana Prasad <sahana@redhat.com> - 1.25.1-8
+- Rebuilt with OpenSSL 3.0.0
+
+* Wed Jul 21 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.25.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
+* Fri Feb 12 2021 Tom Callaway <spot@fedoraproject.org> - 1.25.1-6
+- rebuild against new bullet
+
+* Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.25.1-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
+* Fri Dec  4 2020 Tom Callaway <spot@fedoraproject.org> - 1.25.1-4
+- merge libavif logic to one spec
+
+* Mon Nov 30 2020 Andreas Schneider <asn@redhat.com> - 1.25.1-3.1
+- Disable avif support
 
 * Tue Oct 27 2020 Mamoru TASAKA <mtasaka@fedoraprojet.org> - 1.25.1-3
 - Disable libavif support for now (bug 1891658)
