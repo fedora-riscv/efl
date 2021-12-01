@@ -4,6 +4,9 @@
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %global has_luajit 0
 %endif
+%ifarch ppc64le s390x
+%global has_luajit 0
+%endif
 # PANIC: unprotected error in call to Lua API (bad light userdata pointer)
 # Disabling luajit for aarch64
 # %%ifarch aarch64
@@ -30,7 +33,7 @@
 
 Name:		efl
 Version:	1.25.1
-Release:	8%{?dist}
+Release:	10%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -83,7 +86,7 @@ BuildRequires:	mesa-libgbm-devel libinput-devel
 %if 0%{?has_luajit}
 BuildRequires:	luajit-devel
 %else
-BuildRequires:	lua-devel
+BuildRequires:	compat-lua-devel
 %endif
 # For AutoReq cmake-filesystem
 BuildRequires:	cmake
@@ -245,8 +248,7 @@ Development files for EFL.
  -Dbindings=cxx \
  -Dlua-interpreter=lua \
 %endif
- -Dphysics=true \
- -Dsystemdunitdir=%{_userunitdir}
+ -Dphysics=true
 %{meson_build}
 
 %install
@@ -576,6 +578,10 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Wed Dec 01 2021 Andreas Schneider <asn@redhat.com> - 1.25.1-10
+- Don't build with luajit support on ppc64le and s390x
+- Remove unknown systemdunitdir option
+
 * Tue Sep 14 2021 Sahana Prasad <sahana@redhat.com> - 1.25.1-8
 - Rebuilt with OpenSSL 3.0.0
 
