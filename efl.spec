@@ -26,14 +26,12 @@
 %global use_wayland 0
 %endif
 
-# Disable libavif support for now
-# https://phab.enlightenment.org/T8844
-# efl 1.25.1 or git master fails to compile with libavif v0.8.2
-%bcond_with avif
+# Enable avif support (this broke before)
+%bcond_without avif
 
 Name:		efl
-Version:	1.25.1
-Release:	10%{?dist}
+Version:	1.26.0
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -81,7 +79,8 @@ BuildRequires:	doxygen systemd giflib-devel openjpeg2-devel libdrm-devel
 BuildRequires:	wayland-devel >= 1.11.0
 BuildRequires:	wayland-protocols-devel >= 1.7
 %endif
-BuildRequires:	ninja-build meson gettext-devel mesa-libGLES-devel
+BuildRequires:	meson >= 0.50
+BuildRequires:	ninja-build gettext-devel mesa-libGLES-devel
 BuildRequires:	mesa-libgbm-devel libinput-devel
 %if 0%{?has_luajit}
 BuildRequires:	luajit-devel
@@ -215,14 +214,16 @@ Development files for EFL.
 # sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
 #  data/libeo.so.%{version}-gdb.py
 
+# libheif is legally encumbered (and not in Fedora)
+
 %build
 %{meson} \
  -Dxinput22=true \
  -Dsystemd=true \
 %if %{with avif}
- -Devas-loaders-disabler=json \
+ -Devas-loaders-disabler=json,heif \
 %else
- -Devas-loaders-disabler=json,avif \
+ -Devas-loaders-disabler=json,heif,avif \
 %endif
  -Dharfbuzz=true \
  -Dsdl=true \
@@ -400,6 +401,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/evas/
 %{_libdir}/libevas.so.*
 %{_datadir}/evas/
+%{_datadir}/mime/packages/evas.xml
 # exactness
 %{_bindir}/exactness*
 %{_libdir}/libexactness*.so.*
@@ -578,6 +580,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Wed Dec 29 2021 Tom Callaway <spot@fedoraproject.org> - 1.26.0-1
+- update to 1.26.0
+
 * Wed Dec 01 2021 Andreas Schneider <asn@redhat.com> - 1.25.1-10
 - Don't build with luajit support on ppc64le and s390x
 - Remove unknown systemdunitdir option
