@@ -30,7 +30,7 @@
 %bcond_without avif
 
 Name:		efl
-Version:	1.26.0
+Version:	1.26.1
 Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
@@ -580,6 +580,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Mon Jan  3 2022 Tom Callaway <spot@fedoraproject.org> - 1.26.1-1
+- update to 1.26.1
+
 * Wed Dec 29 2021 Tom Callaway <spot@fedoraproject.org> - 1.26.0-1
 - update to 1.26.0
 
