@@ -31,7 +31,7 @@
 
 Name:		efl
 Version:	1.26.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -580,6 +580,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Fri May 20 2022 Sandro Mani <manisandro@gmail.com> - 1.26.1-3
+- Rebuild for gdal-3.5.0 and/or openjpeg-2.5.0
+
 * Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
