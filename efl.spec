@@ -31,7 +31,7 @@
 
 Name:		efl
 Version:	1.26.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -580,6 +580,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Wed Jun 22 2022 Robert-André Mauchin <zebob.m@gmail.com> - 1.26.1-4
+- Rebuilt for new libavif
+
 * Fri May 20 2022 Sandro Mani <manisandro@gmail.com> - 1.26.1-3
 - Rebuild for gdal-3.5.0 and/or openjpeg-2.5.0
 
