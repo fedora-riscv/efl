@@ -31,7 +31,7 @@
 
 Name:		efl
 Version:	1.26.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -580,6 +580,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Sun Oct 23 2022 Robert-André Mauchin <zebob.m@gmail.com> - 1.26.3-3
+- Rebuild for new libavif
+
 * Sun Oct 23 2022 Robert-André Mauchin <zebob.m@gmail.com> - 1.26.3-2
 - Rebuild for new libavif
 
