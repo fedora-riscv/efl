@@ -4,7 +4,7 @@
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %global has_luajit 0
 %endif
-%ifarch ppc64le s390x
+%ifarch ppc64le s390x riscv64
 %global has_luajit 0
 %endif
 # PANIC: unprotected error in call to Lua API (bad light userdata pointer)
@@ -31,7 +31,7 @@
 
 Name:		efl
 Version:	1.26.3
-Release:	4%{?dist}
+Release:	4.rv64%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -580,6 +580,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Wed Mar 15 2023 Liu Yang <Yang.Liu.sn@gmail.com> - 1.26.3-4.rv64
+- Fix build on riscv64.
+
 * Thu Dec 01 2022 Kalev Lember <klember@redhat.com> - 1.26.3-4
 - Rebuild for new libavif
 
