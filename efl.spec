@@ -14,7 +14,7 @@
 # %%endif
 
 # Look, you probably don't want this. scim is so 2012. ibus is the new hotness.
-# Enabling this means you'll almost certainly need to pass ECORE_IMF_MODULE=xim 
+# Enabling this means you'll almost certainly need to pass ECORE_IMF_MODULE=xim
 # to get anything to work. (*cough*terminology*cough*)
 %global with_scim 0
 
@@ -48,7 +48,7 @@ Patch3:		efl-1.25.0-no-neon.patch
 Patch4:		efl-1.25.0-check-fix.patch
 
 # Fix headerless .po files that modern gettext doesn't like
-Patch5:		efl-1.26.3-gettextfix.patch
+Patch5:		efl-1.27.0-gettextfix.patch
 
 %ifnarch s390 s390x
 BuildRequires:	libunwind-devel
@@ -212,7 +212,7 @@ Development files for EFL.
 #%patch2 -p1 -b .luajitfix
 %patch -P3 -p1 -b .noneon
 %patch -P4 -p1 -b .checkfix
-%patch -P5 -p1 -b .gettextfix
+%patch -P5 -b .gettextfix
 
 # This is why hardcoding paths is bad.
 # sed -i -e 's|/opt/efl-%{version}/share/|%{_datadir}/|' \
@@ -684,7 +684,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 - update to 1.24.3
 - Remove meson flag -Dopengl=full
 - Remove Patch1 efl-1.17.1-old-nomodifier-in-drm_mode_fb_cmd2.patch
-- Remove Patch2 efl-1.23.1-luajitfix.patch 
+- Remove Patch2 efl-1.23.1-luajitfix.patch
   as luaL_reg is no longer required
 
 * Tue May 26 2020 Tom Callaway <spot@fedoraproject.org> - 1.24.2-1
@@ -851,7 +851,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 * Wed Aug 31 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.0-4
 - explicitly disable cocoa. we are not osx. sloppy configure gets it wrong.
-- fix typo in elementary pc files 
+- fix typo in elementary pc files
 
 * Wed Aug 31 2016 Tom Callaway <spot@fedoraproject.org> - 1.18.0-3
 - properly provide/obsolete evas-generic-loaders
