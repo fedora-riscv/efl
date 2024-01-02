@@ -30,8 +30,8 @@
 %bcond_without avif
 
 Name:		efl
-Version:	1.26.3
-Release:	8%{?dist}
+Version:	1.27.0
+Release:	1%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -65,7 +65,7 @@ BuildRequires:	libXi-devel mesa-libGL-devel mesa-libEGL-devel
 BuildRequires:	libblkid-devel libmount-devel systemd-devel harfbuzz-devel
 BuildRequires:	libwebp-devel tslib-devel SDL2-devel SDL-devel c-ares-devel
 BuildRequires:	libxkbcommon-devel uuid-devel libxkbcommon-x11-devel avahi-devel
-BuildRequires:	rlottie-devel
+BuildRequires:	rlottie-devel libjxl-devel
 BuildRequires:	pkgconfig(poppler-cpp) >= 0.12
 BuildRequires:	pkgconfig(libspectre) pkgconfig(libraw)
 BuildRequires:	pkgconfig(librsvg-2.0) >= 2.14.0
@@ -288,7 +288,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 %files -f %{name}.lang
 %license COPYING licenses/COPYING.BSD licenses/COPYING.GPL licenses/COPYING.LGPL licenses/COPYING.SMALL
-%doc AUTHORS COMPLIANCE NEWS README
+%doc AUTHORS COMPLIANCE README.md
 %{_libdir}/libefl.so.1*
 %{_libdir}/libefl_canvas_wl.so.1*
 %{_bindir}/efl_debug
@@ -584,6 +584,13 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/libexactness*.so
 
 %changelog
+* Tue Jan 02 2024 Ding-Yi Chen <dchen@redhat.com> - 1.27.0-1
+- Fixes Bug 2255716 - efl-1.27.0 is available
+- Add BuildRequires: libjxl-devel
+- Documents:
+  + Remove NEWS, because upstream no-longer have it
+  + Rename README to README.md
+
 * Tue Aug  1 2023 Tom Callaway <spot@fedoraproject.org> - 1.26.3-8
 - fix headerless .po files that modern gettext does not like (bz2225767)
 
