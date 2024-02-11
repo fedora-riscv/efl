@@ -4,7 +4,7 @@
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %global has_luajit 0
 %endif
-%ifarch ppc64le s390x
+%ifarch ppc64le s390x riscv64
 %global has_luajit 0
 %endif
 # PANIC: unprotected error in call to Lua API (bad light userdata pointer)
@@ -31,7 +31,7 @@
 
 Name:		efl
 Version:	1.27.0
-Release:	2%{?dist}
+Release:	2.rv64%{?dist}
 Summary:	Collection of Enlightenment libraries
 License:	BSD and LGPLv2+ and GPLv2 and zlib
 URL:		http://enlightenment.org/
@@ -603,6 +603,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 
 * Wed Jul 19 2023 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.3-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_39_Mass_Rebuild
+
+* Sun Apr 23 2023 Liu Yang <Yang.Liu.sn@gmail.com> - 1.26.3-6.rv64
+- Fix riscv64 build.
 
 * Thu Jan 19 2023 Fedora Release Engineering <releng@fedoraproject.org> - 1.26.3-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_38_Mass_Rebuild
